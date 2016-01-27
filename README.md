@@ -13,7 +13,7 @@ Omniboard comes as a gem, although it's not currently hosted on rubygems or the 
 git clone https://github.com/jyruzicka/omniboard.git
 cd omniboard
 gem build omniboard.gemspec
-gem install omniboard-0.0.1.gem
+gem install omniboard-0.1.0.gem
 ```
 
 Alternatively, add it to your `Gemfile`:
