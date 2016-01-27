@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>看板</title>
+	<style>
+		* { margin: 0px; padding: 0px; }
+		html {
+			font: 12px <%= Omniboard::Column.body_font %>;
+			font-size: 12px;
+			padding: 2rem;
+		}
+
+		header {
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			border-bottom: 2px solid #888;
+			margin-bottom: 2rem;
+		}
+
+		#search {
+			margin-right: 2em;
+			border-radius: 1em;
+			padding: 0.2em 0.4em;
+		}
+
+		#kanban{ display: flex; }
+		.column{ flex-basis: 0px; }
+		.column + .column{ margin-left: 2em; }
+		.project-group { display: flex; flex-wrap: wrap; }
+
+		h1, h2, h3, h4 { font-family: <%= Omniboard::Column.heading_font %>; color: #444; }
+
+		h1{ font-size: 2.5rem; }
+		h2{ font-size: 2rem; margin-bottom: 0.8em; border-bottom: 1px solid #888; }
+		h3{ font-size: 1.5rem }
+		h4{ font-size: 1rem }
+
+		.column.width-1 .project{ width: calc(100% - 0.5em); }
+		.column.width-2 .project { width: calc(50% - 0.5em); }
+		.column.width-3 .project { width: calc(33% - 0.5em); }
+		.column.width-4 .project { width: calc(25% - 0.5em); }
+		.column.width-5 .project { width: calc(20% - 0.5em); }
+		.column.width-6 .project { width: calc(16% - 0.5em); }
+
+		.project{
+			border: 2px solid black;
+			border-radius: 8px;
+			margin: 0 0.5em 1em 0;
+			padding: 5px;
+			box-sizing: border-box;
+			font-weight: 300;
+			box-shadow: rgba(0,0,0,0.3) 1px 1px 3px;
+			position: relative;
+		}
+
+		.project .mark {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			border-top: 10px solid red;
+			border-left: 10px solid transparent;
+		}
+
+		.project.dimmed {
+			opacity: 0.8;
+			box-shadow: none;
+		}
+
+		.project.dimmed:hover {
+			opacity: 1.0;
+			box-shadow: rgba(0,0,0,0.3) 1px 1px 3px;
+		}
+
+		.project.compact .tasks, .project.compact .project-deferral, .project.compact .project-icon {
+			display: none;
+		}
+
+		.project-deferral {
+			position: absolute;
+			bottom: 3px;
+			right: 3px;
+			height: 10px;
+			width: 10px;
+
+			background-color: rgb(255, 255, 255);
+			border-top: 4px solid red;
+			box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+		
+			text-align: center;
+			font-weight: bold;
+			font-size: 8px;
+		}
+
+		.project-icon {
+			position: absolute;
+			right: 3px;
+			bottom: 0;
+		}
+
+		.project-icon img, .project-icon svg {
+			max-height: 10px;
+			max-width: 14px;
+		}
+
+		#overlay-wrapper{ display: none; }
+		#overlay-background {
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			height: 100%;
+			width: 100%;
+			background-color: rgba(0,0,0,0.2);
+		}
+
+		#overlay-main {
+			position: fixed;
+			top: 10%;
+			left: 10%;
+			height: 80%;
+			width: 80%;
+			padding: 2em;
+			box-sizing: border-box;
+
+			background-color: #ddd;
+			border: 2px solid #666;
+			border-radius: 10px;
+
+			display: flex;
+			flex-direction: column;
+		}
+
+		#overlay-main .close {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			font-size: 2rem;
+			cursor: pointer;
+		}
+
+		#overlay-main h2 {
+			border-bottom: none;
+		}
+
+		#overlay-main .body {
+			display: flex;
+			flex-grow: 1;
+		}
+
+		#overlay-main .note {
+			flex: 2 2 0px;
+			margin-right: 1em;
+			border-right: 1px dotted grey;
+		}
+
+		#overlay-main .tasks {
+			flex: 1 1 0px;
+			margin-left: 1em;
+		}
+
+		.tasks .complete {
+			text-decoration: line-through;
+			color: #666;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<input type="search" id="search" placeholder="Hit / to filter" />
+		<h1>看板 Kanban</h1>
+		<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+			<defs>
+				<symbol id="waiting-on" viewBox="0 0 10 10" stroke="black" stroke-width="1" fill="none">
+					<circle cx=5 cy=5 r=4.5 />
+					<path d="M5 5 l0 -4"/>
+					<path d="M5 5 l2 0"/>
+				</symbol>
+				<symbol id="hanging" viewBox="0 0 14 10" stroke="black" stroke-width="1" fill="none">
+					<path d="M 5,2 l 1,-1 q 1,-1 2,0 q 1,1 0,2 L 7,4 l -5,4.167 q -1,0.833 0,1 l 10,0 q 1,0 0,-0.833 L 7,4" />					
+			</defs>
+		</svg>
+	</header>
+	<section id="kanban">

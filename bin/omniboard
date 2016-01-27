@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require "omniboard"
+
+# Command line options
+require "trollop"
+
+opts = Trollop::options do
+	opt :configure, "Location of configuration files. (Default: #{File.join(ENV["HOME"], ".omniboard")})", type: String
+	opt :output, "Where should the html go? If not specified, outputs to STDOUT.", type: String
+	opt :reset, "Wipe cache and start again from the source."
+end
+
+
+# Set configuration location
+Omniboard::config_location = opts[:configure] if opts[:configure]
+
+# If this is a new location, populate appropriately
+Omniboard::populate if !Omniboard::config_exists?
+
+# Create or load + update
+if Omniboard::document_exists? && !opts[:reset]
+	Omniboard::load_document
+else
+	Omniboard::create_document
+end
+
+Omniboard::update_document
+
+renderer = Omniboard::Renderer.new
+
+Omniboard::columns.each do |column|
+	column.add Omniboard::projects
+	renderer.add_column(column)
+end
+
+if opts[:output]
+	File.open(opts[:output], "w"){ |io| io.puts renderer.to_s }
+else
+	puts renderer.to_s
+end
+
+Omniboard::save_document

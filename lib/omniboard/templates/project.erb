@@ -1,0 +1,19 @@
+<div class="<%= project.css_classes.join(" ") %>" data-name="<%=project.name.sanitize%>" data-id="<%=project.id%>" data-note="<%=(project.note || "").sanitize%>" data-colour="<%=project.colour%>" data-light-colour="<%=project.light_colour%>" data-tasks="<%=project.task_list.sanitize_quotes%>">
+	<% if project.marked? %>
+		<div class="mark"></div>
+	<% end %>
+	<h4><%=project.name%></h4>
+	<div class="tasks"><%=project.num_tasks%> task<%=project.num_tasks == 1 ? "" : "s"%> remaining</div>
+	<% if project.all_tasks_deferred? %>
+		<div class="project-deferral"><%= project.days_until_action %></div>
+	<% elsif project.icon %>
+		<div class="project-icon">
+			<% if project.icon.start_with?("svg:") %>
+				<svg><use xlink:href="#<%= project.icon.sub(/^svg:/,"") %>" /></svg>
+			<% else %>
+				<img src="<%=project.icon%>" />
+			<% end %>
+			</div>
+
+	<% end %>
+</div>

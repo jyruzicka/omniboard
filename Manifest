@@ -1,0 +1,30 @@
+# INCLUDE bin/**/*
+# INCLUDE lib/**/*
+# INCLUDE *
+# EXCLUDE **/.DS_Store
+# EXCLUDE .rarity
+
+.rspec
+bin/omniboard
+lib/omniboard.rb
+lib/omniboard/colour.rb
+lib/omniboard/column.rb
+lib/omniboard/columns/active.rb
+lib/omniboard/columns/backburner.rb
+lib/omniboard/columns/completed.rb
+lib/omniboard/columns/config.rb
+lib/omniboard/core_ext.rb
+lib/omniboard/group.rb
+lib/omniboard/omniboard.rb
+lib/omniboard/project_wrapper.rb
+lib/omniboard/property.rb
+lib/omniboard/renderer.rb
+lib/omniboard/templates/column.erb
+lib/omniboard/templates/postamble.erb
+lib/omniboard/templates/preamble.erb
+lib/omniboard/templates/project.erb
+Manifest
+omniboard.gemspec
+omniboard.html
+README.md
+version.txt

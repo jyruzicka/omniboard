@@ -1,0 +1,17 @@
+<div class="column width-<%=column.columns%>" style="flex-grow: <%=column.width%>">
+	<h2><%=column%></h2>
+	<%if column.can_be_grouped? %>
+		<% column.groups.each do |group| %>
+			<h3><%=group %></h3>
+			<div class="project-group">
+				<% column.projects(group).each do |p| %>
+					<%= render_project(p) %>
+				<% end %>
+			</div>
+		<% end %>
+	<% else %>
+		<% column.projects.each do |p| %>
+			<%= render_project(p) %>
+		<% end %>
+	<% end %>
+</div>

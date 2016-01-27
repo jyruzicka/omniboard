@@ -1,0 +1,106 @@
+	</section>
+	<section id="overlay-wrapper">
+		<section id="overlay-background"></section>
+		<section id="overlay-main">
+			<div class="close">×</div>
+			<h2 class="name"></h2>
+			<h3><a class="id" href"#"></a></h3>
+			<div class="body">
+				<div class="note"></div>
+				<div class="tasks"></div>
+		</section>
+	</section>
+	<script>
+	//Foreach function
+	function foreach(sel, fnc){
+		var elems;
+		if (sel instanceof Array) elems = sel;
+		else elems=document.querySelectorAll(sel);
+
+		for(var i=0;i<elems.length;i++)fnc.bind(elems[i])()
+	}
+
+	//Element hide and show
+	function show(elem,typ){ elem.style.display = typ || "block"; }
+	function hide(elem){ elem.style.display = "none"; }
+
+	//Overlay vars	
+	var overlay = {
+		wrapper: document.querySelector("#overlay-wrapper"),
+		background: document.querySelector("#overlay-background"),
+		container: document.querySelector("#overlay-main"),
+		name: document.querySelector("#overlay-main .name"),
+		id: document.querySelector("#overlay-main .id"),
+		note: document.querySelector("#overlay-main .note"),
+		tasks: document.querySelector("#overlay-main .tasks"),
+		close: document.querySelector("#overlay-main .close")
+	};
+
+	//Show the overlay, get data from element
+	function showOverlay(elem) {
+		overlay.container.style.backgroundColor = elem.getAttribute("data-light-colour");
+
+		overlay.name.innerHTML = elem.getAttribute("data-name");
+		overlay.id.innerHTML = elem.getAttribute("data-id");
+		overlay.id.setAttribute("href", "omnifocus:///task/"+elem.getAttribute("data-id"));
+
+		overlay.note.innerHTML = "<h3>Notes:</h3>" + elem.getAttribute("data-note");
+		overlay.tasks.innerHTML = "<h3>Tasks:</h3>" + elem.getAttribute("data-tasks");
+
+		show(overlay.wrapper);
+	}
+
+	// Hide the overlay
+	function hideOverlay() {hide(overlay.wrapper); }
+
+	// Set element background colour
+	foreach(".project", function(){ this.style.backgroundColor = this.getAttribute("data-colour");});
+
+	// Set up title click->overlay
+	foreach(".project h4", function(){
+		this.style.cursor = "pointer";
+		this.addEventListener("click", function(){showOverlay(this.parentNode)},false);
+	});
+
+	// Search box function
+	document.querySelector("#search").addEventListener("keyup", function(){
+		var searchString = this.value.toLowerCase();
+		foreach(".project", function(){
+			var id = this.getAttribute("data-id");
+			var name = this.getAttribute("data-name");
+			var note = this.getAttribute("data-note");
+			if (name.toLowerCase().indexOf(searchString) >= 0 ||
+					id.toLowerCase().indexOf(searchString) >= 0 ||
+					note.toLowerCase().indexOf(searchString) >= 0
+				)
+				show(this);
+			else
+				hide(this);
+			});
+		});
+
+	// Close button listener
+	overlay.close.addEventListener("click", hideOverlay, false);
+	// Overlay background listener
+	overlay.background.addEventListener("click", hideOverlay, false);
+
+	// Search box auto-focus with "/" when not focussed on a textbox
+	document.addEventListener("keypress", function(e){
+		if (!e) //IE fix
+			e = window.event;
+
+		// Escape most things
+		var tagName = e.target.tagName;
+		if (tagName == "INPUT" || tagName == "TEXTAREA") return true;
+		if (e.shiftKey || e.ctrlKey || e.altKey) return true;
+
+		if (e.key == "/") {
+			document.querySelector("#search").focus();
+			return false;
+		}
+		else
+			return true;
+	}, true);
+	</script>
+</body>
+</html>
