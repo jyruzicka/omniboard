@@ -2,9 +2,9 @@
 # INCLUDE lib/**/*
 # INCLUDE *
 # EXCLUDE **/.DS_Store
-# EXCLUDE .rarity
+# EXCLUDE .*
+# EXCLUDE Manifest
 
-.rspec
 bin/omniboard
 lib/omniboard.rb
 lib/omniboard/colour.rb
@@ -23,8 +23,6 @@ lib/omniboard/templates/column.erb
 lib/omniboard/templates/postamble.erb
 lib/omniboard/templates/preamble.erb
 lib/omniboard/templates/project.erb
-Manifest
 omniboard.gemspec
-omniboard.html
 README.md
 version.txt
