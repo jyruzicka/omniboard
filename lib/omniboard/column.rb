@@ -31,6 +31,9 @@ class Omniboard::Column
 	# Display - compact or full? Full includes task info.
 	property :display
 
+	# Do we show a button allowing us to filter our dimmed projects?
+	property :filter_button
+
 	# How many projects to show per line? Defaults to 1.
 	property :columns
 
@@ -42,6 +45,8 @@ class Omniboard::Column
 		self.width(1)
 		self.columns(1)
 		self.display(:full)
+		self.filter_button(false)
+		
 		instance_exec(&blck) if blck
 		Omniboard::Column.add(self)
 	end

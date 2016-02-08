@@ -1,5 +1,10 @@
 require_relative "spec_helper"
 
+def render_column(column)
+  column_file = File.join(__dir__, "../lib/omniboard/templates/column.erb")
+  ERB.new(File.read column_file).result(binding)
+end
+
 def make_projects *names
   names.map{ |n| double(name: n, id: nil, note: nil) }
 end
@@ -231,6 +236,16 @@ describe Omniboard::Column do
       Omniboard::Column.clear_config :sort_groups
     end
   end
+
+  describe "#filter_button" do
+    it "should produce a filter button" do
+      c = Omniboard::Column.new("Hide"){ filter_button true }
+      expect(render_column c).to include(%|<svg class="filter-button"|)
+    end
+  end
+
+  #---------------------------------------
+  # Class methods
 
   describe ".columns" do
     it "should record all columns" do

@@ -74,6 +74,7 @@ end
 * **display**: A column whose display is `:compact` will only show a summary of each project contained within it. A column whose display is `:full` will show additional details for each project. By default, a column's display is `:full`.
 * **width**: The relative width of this column as compared to other columns on the board. The column's default width is 0.
 * **columns**: The number of sub-columns within this column. If `columns` is greater than 1, projects will be displayed side-by-side. By default, each column's width is 1.
+* **filter_button**: Whether or not to show a small button which, when clicked, will hide all "dimmed" projects. By default, set to false.
 
 The following column properties take blocks of ruby code. You can alter these inside the column block in the following manner:
 

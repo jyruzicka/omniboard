@@ -1,5 +1,10 @@
 <div class="column width-<%=column.columns%>" style="flex-grow: <%=column.width%>">
-	<h2><%=column%></h2>
+	<div class="column-header">
+		<h2><%=column%></h2>
+		<% if column.filter_button %>
+			<svg class="filter-button"><use xlink:href="#filter-apply" /></svg>
+		<% end %>
+	</div>
 	<%if column.can_be_grouped? %>
 		<% column.groups.each do |group| %>
 			<div class="project-wrapper">

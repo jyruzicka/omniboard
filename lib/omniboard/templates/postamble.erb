@@ -18,7 +18,7 @@
 	//Foreach function
 	function foreach(sel, fnc){
 		var elems;
-		if (sel instanceof Array) elems = sel;
+		if (sel instanceof Array || sel instanceof NodeList) elems = sel;
 		else elems=document.querySelectorAll(sel);
 
 		for(var i=0;i<elems.length;i++)fnc(elems[i]);
@@ -128,6 +128,27 @@
 			return true;
 	}, true);
 
+	// Filter button listeners
+	foreach(".filter-button", function(elem){
+		elem.addEventListener("click", function(){
+			var parent = this.parentNode.parentNode;
+			var use = this.querySelector("use");
+
+			var dimmedProjects = parent.querySelectorAll(".dimmed");
+			console.log("Filtering "+dimmedProjects.length+" projects");
+			if (use.getAttribute("xlink:href") == "#filter-apply") {// Apply filter!
+				foreach(dimmedProjects, function(e){ addClass(e, "filtered") });
+				use.setAttribute("xlink:href", "#filter-remove");
+			}
+			else {
+				foreach(dimmedProjects, function(e){ removeClass(e, "filtered") });
+				use.setAttribute("xlink:href", "#filter-apply");
+			}
+
+			updateGroupVisibility();
+		}, false);
+	});
+
 	// Hide/show groups
 	function updateGroupVisibility() {
 		foreach(".project-wrapper", function(pw){
@@ -137,7 +158,7 @@
 			var j = 0;
 
 			while (allProjectsHidden && j < projects.length) {
-				if (projects[j].className.indexOf("hidden") == -1)
+				if (projects[j].className.indexOf("hidden") == -1 && projects[j].className.indexOf("filtered") == -1)
 					allProjectsHidden = false;
 				j++;
 			}
