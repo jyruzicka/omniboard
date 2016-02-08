@@ -2,11 +2,13 @@
 	<h2><%=column%></h2>
 	<%if column.can_be_grouped? %>
 		<% column.groups.each do |group| %>
-			<h3><%=group %></h3>
-			<div class="project-group">
-				<% column.projects(group).each do |p| %>
-					<%= render_project(p) %>
-				<% end %>
+			<div class="project-wrapper">
+				<h3><%=group %></h3>
+				<div class="project-group">
+					<% column.projects(group).each do |p| %>
+						<%= render_project(p) %>
+					<% end %>
+				</div>
 			</div>
 		<% end %>
 	<% else %>

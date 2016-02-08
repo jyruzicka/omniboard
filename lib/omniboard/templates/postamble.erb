@@ -21,12 +21,32 @@
 		if (sel instanceof Array) elems = sel;
 		else elems=document.querySelectorAll(sel);
 
-		for(var i=0;i<elems.length;i++)fnc.bind(elems[i])()
+		for(var i=0;i<elems.length;i++)fnc(elems[i]);
+	}
+
+	//Add class to element
+	function addClass(elem, klass) {
+		var klasses = elem.className.split(/\s+/);
+
+		if (klasses.indexOf(klass) == -1) {
+			klasses.push(klass);
+			elem.className = klasses.join(" ");
+		}
+	}
+
+	function removeClass(elem, klass) {
+		var klasses = elem.className.split(/\s+/);
+		var i = klasses.indexOf(klass);
+
+		if (i >= 0) {
+			klasses.splice(i,1);
+			elem.className = klasses.join(" ");
+		}
 	}
 
 	//Element hide and show
-	function show(elem,typ){ elem.style.display = typ || "block"; }
-	function hide(elem){ elem.style.display = "none"; }
+	function show(elem){ removeClass(elem, "hidden") }
+	function hide(elem){ addClass(elem, "hidden") }
 
 	//Overlay vars	
 	var overlay = {
@@ -58,30 +78,32 @@
 	function hideOverlay() {hide(overlay.wrapper); }
 
 	// Set element background colour
-	foreach(".project", function(){ this.style.backgroundColor = this.getAttribute("data-colour");});
+	foreach(".project", function(p){ p.style.backgroundColor = p.getAttribute("data-colour");});
 
 	// Set up title click->overlay
-	foreach(".project h4", function(){
-		this.style.cursor = "pointer";
-		this.addEventListener("click", function(){showOverlay(this.parentNode)},false);
+	foreach(".project h4", function(h){
+		h.style.cursor = "pointer";
+		h.addEventListener("click", function(){showOverlay(h.parentNode)},false);
 	});
 
 	// Search box function
 	document.querySelector("#search").addEventListener("keyup", function(){
 		var searchString = this.value.toLowerCase();
-		foreach(".project", function(){
-			var id = this.getAttribute("data-id");
-			var name = this.getAttribute("data-name");
-			var note = this.getAttribute("data-note");
+
+		foreach(".project", function(p){
+			var id = p.getAttribute("data-id");
+			var name = p.getAttribute("data-name");
+			var note = p.getAttribute("data-note");
 			if (name.toLowerCase().indexOf(searchString) >= 0 ||
 					id.toLowerCase().indexOf(searchString) >= 0 ||
 					note.toLowerCase().indexOf(searchString) >= 0
 				)
-				show(this);
+				show(p);
 			else
-				hide(this);
-			});
+				hide(p);
 		});
+		updateGroupVisibility();
+	});
 
 	// Close button listener
 	overlay.close.addEventListener("click", hideOverlay, false);
@@ -105,6 +127,25 @@
 		else
 			return true;
 	}, true);
+
+	// Hide/show groups
+	function updateGroupVisibility() {
+		foreach(".project-wrapper", function(pw){
+
+			var projects = pw.querySelectorAll(".project");
+			var allProjectsHidden = true;
+			var j = 0;
+
+			while (allProjectsHidden && j < projects.length) {
+				if (projects[j].className.indexOf("hidden") == -1)
+					allProjectsHidden = false;
+				j++;
+			}
+
+			if (allProjectsHidden) hide(pw);
+			else show(pw);
+		});
+	}
 	</script>
 </body>
 </html>

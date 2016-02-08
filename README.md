@@ -264,6 +264,62 @@ In fact, I could mark these "Waiting for..." projects with an icon, just so I kn
 	end
 ```
 
+## Filter by date
+
+What if you want to filter by defer, due, or completion date? For example:
+
+* A "due soon" column containing only projects due within the next week.
+* The "completed" column only shows projects you completed in the last two days.
+* An "upcoming" column which shows projects which are currently deferred, but whose next action is deferred until tomorrow.
+
+Before I start on this, I'd like to quickly talk about project vs. task due dates. OmniFocus treats each project as a sub-class of a task, with a couple of extra properties. This means that any property you can assign to a task, you can (in theory) assign to a project. This means that a project can be marked "deferred" for two reasons:
+
+* The project itself is deferred, or
+* Every available task in the project is deferred.
+
+Similarly, it's a good idea to consider the due date on both tasks within a project, and the project itself.
+
+For our first trick, let's consider a column containing projects whose due date is within the next week. Every task has a `due` property which returns a `Time` or `nil`:
+
+```ruby
+one_week_from_now = Time.now + (60 * 60 * 24 * 7)
+
+Omniboard::Column.new "Due soon" do
+	conditions do |p|
+		p.active? && p.due && p.due <= one_week_from_now
+	end
+end
+```
+
+This checks the project's `due` property, and if it's not null (and is less than one week from now), includes it in the board. We also filter out on-hold, completed, or dropped projects.
+
+The "completed" column is pretty similar:
+
+```ruby
+one_week_ago = Time.now - (60 * 60 * 24 * 7)
+
+Omniboard::Column.new "Completed" do
+	conditions do |p|
+		p.completed? && p.completed >= one_week_ago
+	end
+end
+```
+
+Note that any completed task or project should always have a set completion time, so we don't need to check if the `completed` property is `nil`. You could, just to be double-sure.
+
+Finally, let's look at our "upcoming" column. This is a bit trickier because we're delving into per-task dates, but it's still surprisingly easy to do. One thing I'm going to do here is say that the project's available tasks just need to be deferred to *any* time tomorrow, not within 24 hours of this exact moment.
+
+```ruby
+tomorrow = Date.today + 1
+
+Omniboard::Column.new "Starting tomorrow" do
+	conditions do |p|
+		p.actionable_tasks.size == 0 && # No tasks we can do right now
+			p.next_tasks.any?{ |t| t.start.to_date == tomorrow } # Incomplete, non-blocked task starting tomorrow
+	end
+end
+```
+
 # Feedback and further information
 
 If you have any examples of particularly good examples of column configuration, or think I've missed something in the case studies or documentation, get in touch!
