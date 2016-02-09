@@ -1,3 +1,7 @@
+# 0.2.1 // 2016-02-09
+
+* [Fix] Added `trollop` to list of runtime dependencies
+
 # 0.2.0 // 2016-02-08
 
 A number of updates around the board
