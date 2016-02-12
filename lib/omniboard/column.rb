@@ -22,6 +22,8 @@ class Omniboard::Column
 	block_property :group_by
 	block_property :sort_groups
 
+	INHERITED_PROPERTIES = %i(sort mark_when dim_when icon group_by sort_groups)
+
 	# Order in the kanban board. Lower numbers are further left. Default 0
 	property :order
 
@@ -39,6 +41,7 @@ class Omniboard::Column
 
 	# Intializer. Provide name and block for instance evaluation (optional)
 	def initialize(name, &blck)
+		# Set defaults
 		self.name = name
 		self.projects = []
 		self.order(0)
@@ -46,9 +49,19 @@ class Omniboard::Column
 		self.columns(1)
 		self.display(:full)
 		self.filter_button(false)
-		
+
+		INHERITED_PROPERTIES.each{ |s| self.send(s, :inherit) }
+
 		instance_exec(&blck) if blck
 		Omniboard::Column.add(self)
+	end
+
+	# Fetch the appropriate property value. If the value is :inherit, will fetch the appropriate value from Omnigrab::Column
+	def property(sym)
+		raise(ArgumentError, "Unrecognised property #{sym}: allowed values are #{INHERITED_PROPERTIES.join(", ")}.") unless INHERITED_PROPERTIES.include?(sym)
+		v = self.send(sym)
+		v = Omniboard::Column.send(sym) if v == :inherit
+		v
 	end
 
 	# Add an array of projects to the column. If +conditions+ is set, each project will be run through it.
@@ -92,7 +105,7 @@ class Omniboard::Column
 			@projects
 		end
 
-		sort_block = self.sort || Omniboard::Column.sort
+		sort_block = property(:sort)
 		
 		if sort_block.nil?
 			p.sort_by(&:to_s)
@@ -107,14 +120,14 @@ class Omniboard::Column
 
 	# Returns true if column or global group_by supplied
 	def can_be_grouped?
-		!!(self.group_by || self.class.group_by)
+		!!property(:group_by)
 	end
 
 	# Returns a sorted array of groups. Returned as strings
 	def groups
 		keys = grouped_projects.keys.map(&:name)
 
-		group_sort_block = self.sort_groups || Omniboard::Column.sort_groups
+		group_sort_block = property(:sort_groups)
 		if group_sort_block.nil?
 			keys.sort
 		elsif group_sort_block.arity == 1
@@ -135,7 +148,7 @@ class Omniboard::Column
 
 	# Return the group a project should fall into
 	def group_for(project)
-		gby = self.group_by || self.class.group_by
+		gby = property(:group_by)
 		if gby
 			Omniboard::Group[gby[project]]
 		else
@@ -145,7 +158,7 @@ class Omniboard::Column
 
 	# Return the marked status of a given project, based on mark_when blocks
 	def should_mark(project)
-		mark = self.mark_when || self.class.mark_when
+		mark = property(:mark_when)
 		if mark
 			mark[project]
 		else
@@ -155,7 +168,7 @@ class Omniboard::Column
 
 	# Return the dimmed status of a given project, based on mark_when blocks
 	def should_dim(project)
-		dim = self.dim_when || self.class.dim_when
+		dim = property(:dim_when)
 		if dim
 			dim[project]
 		else
@@ -165,7 +178,7 @@ class Omniboard::Column
 
 	# Return the icon for a given project, based on icon blocks
 	def icon_for(project)
-		ic = self.icon || self.class.icon
+		ic = property(:icon)
 		if ic
 			ic[project]
 		else

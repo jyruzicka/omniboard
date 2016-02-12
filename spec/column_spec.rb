@@ -10,13 +10,16 @@ def make_projects *names
 end
 
 describe Omniboard::Column do
+  #---------------------------------------
+  # Basics
+
 	describe "properties" do
     it "should have all the various properties" do
       c = Omniboard::Column.new("Sample Column")
       expect(c.name).to eq("Sample Column")
       expect(c.order).to eq(0)
       expect(c.display).to eq(:full)
-      expect(c.sort).to eq(nil)
+      expect(c.sort).to eq(:inherit)
     end
   end
 
@@ -76,6 +79,41 @@ describe Omniboard::Column do
       expect(c.projects("red").size).to eq(2)
       expect(c.projects(Omniboard::Group["blue"]).size).to eq(1)
     end
+  end
+
+  #---------------------------------------
+  # Block properties
+
+  describe "#property" do
+    it "should fetch an instance property when provided" do
+      c = Omniboard::Column.new("Sample column")
+
+      c.sort{ 3 }
+      expect(c.property(:sort)[]).to eq(3)
+    end
+
+    it "should fall back to the Column property if :inherit is set" do
+      Omniboard::Column.sort{ 4 }
+      c = Omniboard::Column.new("No sort")
+      expect(c.property(:sort)[]).to eq(4)
+    end
+
+    it "should return nil if the property is set to nil, regardless of Column property" do
+      Omniboard::Column.sort{ 4 }
+      c = Omniboard::Column.new("No sort")
+      c.sort nil
+      expect(c.property(:sort)).to eq(nil)
+
+      c.sort :inherit
+      expect(c.property(:sort)[]).to eq(4)
+    end
+
+    it "should raise an error if we call property on an unknown property" do
+      c = Omniboard::Column.new("Sample")
+      expect{c.property(:foo)}.to raise_error(ArgumentError)
+    end
+
+    after(:each){ Omniboard::Column.clear_config :sort}
   end
 
   describe "#mark_when" do
@@ -149,8 +187,10 @@ describe Omniboard::Column do
       
       Omniboard::Column.clear_config :icon
     end
-  end 
+  end
 
+  #---------------------------------------
+  # Grouping-related methods
   describe "#group_by" do
     it "should allow us to group projects when supplied" do
       c = Omniboard::Column.new("Group by foo"){ group_by{ |p| "Foo: #{p[:foo]}" } }

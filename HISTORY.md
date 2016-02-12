@@ -1,3 +1,7 @@
+# 0.3.0 // 2016-02-12
+
+* [New] You can now set a block property to `nil` to avoid running any block (including any defaults).
+
 # 0.2.1 // 2016-02-09
 
 * [Fix] Added `trollop` to list of runtime dependencies

@@ -115,6 +115,16 @@ You can also set the following configuration options:
 * **heading_font**: Tells omniboard to use a particular font for headings (`h1`, `h2`, etc.). This may be a CSS-style list of fonts. Defaults to "Helvetica, Arial, sans-serif".
 * **body_font**: Tells omniboard to use a particular font for body text. Defaults to "Helvetica, Arial, sans-serif".
 
+### Countering global configurations
+
+You may find yourself in a situation where you want to have a default group block for every column except one, which you would prefer to leave ungrouped. In this case, you can specify "no value" (overriding the column default) by setting the property to nil:
+
+```ruby
+Kanban::Column.new "Don't group me" do
+	group_by nil
+end
+```
+
 # Case studies
 
 That's quite a lot to take in, so let's have a look at some of the ways I use this system.
