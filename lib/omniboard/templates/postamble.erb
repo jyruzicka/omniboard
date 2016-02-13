@@ -1,5 +1,5 @@
 	</section>
-	<section id="overlay-wrapper">
+	<section id="overlay-wrapper" class="hidden">
 		<section id="overlay-background"></section>
 		<section id="overlay-main">
 			<div class="close">×</div>
@@ -135,7 +135,6 @@
 			var use = this.querySelector("use");
 
 			var dimmedProjects = parent.querySelectorAll(".dimmed");
-			console.log("Filtering "+dimmedProjects.length+" projects");
 			if (use.getAttribute("xlink:href") == "#filter-apply") {// Apply filter!
 				foreach(dimmedProjects, function(e){ addClass(e, "filtered") });
 				use.setAttribute("xlink:href", "#filter-remove");

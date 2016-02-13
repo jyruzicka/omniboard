@@ -1,3 +1,8 @@
+# 0.3.1 // 2016-02-13
+
+* [Fix] Remove console.log() debugging in js functions
+* [Fix] Previous change to hide/show code resulted in a non-functioning info overlay. Now fixed.
+
 # 0.3.0 // 2016-02-12
 
 * [New] You can now set a block property to `nil` to avoid running any block (including any defaults).
