@@ -13,13 +13,13 @@ Omniboard comes as a gem, although it's not currently hosted on rubygems or the 
 git clone https://github.com/jyruzicka/omniboard.git
 cd omniboard
 gem build omniboard.gemspec
-gem install omniboard-0.1.0.gem
+gem install omniboard-0.3.1.gem
 ```
 
 Alternatively, add it to your `Gemfile`:
 
 ```
-gem "omniboard", git: "https://github.com/jruzicka/omniboard.git"
+gem "omniboard", git: "https://github.com/jyruzicka/omniboard.git"
 ```
 
 # Running
@@ -210,7 +210,7 @@ I have a compacted column on the left of my Kanban board showing all the project
 
 ```ruby
 Omniboard::Column.new "Backburner" do
-	
+
 	conditions do |p|
 		p.on_hold? || p.deferred?
 	end
