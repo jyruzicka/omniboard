@@ -1,0 +1,27 @@
+GEM
+  remote: https://www.rubygems.org/
+  specs:
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
+    json (1.8.3)
+    mini_portile2 (2.0.0)
+    multi_xml (0.5.5)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
+    rake (10.5.0)
+    rubyfocus (0.5.4)
+      httparty (~> 0.13, >= 0.13.7)
+      nokogiri (~> 1.6, >= 1.6.6)
+      rubyzip (~> 1.1, >= 1.1.7)
+    rubyzip (1.2.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rake (~> 10.4, >= 10.4.2)
+  rubyfocus (~> 0.5, >= 0.5.3)
+
+BUNDLED WITH
+   1.11.2

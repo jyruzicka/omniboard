@@ -3,9 +3,11 @@
 # INCLUDE *
 # EXCLUDE **/.DS_Store
 # EXCLUDE .*
+# EXCLUDE Gemfile*
 # EXCLUDE Manifest
 
 bin/omniboard
+HISTORY.md
 lib/omniboard.rb
 lib/omniboard/colour.rb
 lib/omniboard/column.rb
