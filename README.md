@@ -2,6 +2,7 @@ Omniboard is a static kanban webpage generator for OmniFocus. Use it to view you
 
 # You will need
 
+* Ruby 2.0 or later: type `ruby -v` at the terminal to see if you have it.
 * It helps to know a little ruby if you want to customise your columns.
 * Omniboard uses the `rubyfocus` gem, which requires Apple Developer Tools to install.
 
