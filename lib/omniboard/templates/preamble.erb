@@ -268,8 +268,8 @@ c0,1.189,0.995,2.154,2.223,2.154c1.227,0,2.223-0.965,2.223-2.154C12.223,9.453,10
 	</svg>
 	<header>
 		<div>
-			 <% if true || !Omniboard::document_at_head? %>
-				 <% if true || !Omniboard.document_can_reach_head? %>
+			 <% if !Omniboard::document_at_head? %>
+				 <% if !Omniboard.document_can_reach_head? %>
 					<div class="alert error" data-modal-title="Document detached from head." data-modal-body="I cannot update this document to its most recent state. You might want to reset the local database by running omnigrab with the <code>--reset</code> flag.">Document detached from head.</div>
 				<% else %>
 					<div class="alert warn" data-modal-title="Document not at head" data-modal-body="This is not the most recent version of the Omnifocus database. Please run omnigrab to update.">Document not at head.</div>
