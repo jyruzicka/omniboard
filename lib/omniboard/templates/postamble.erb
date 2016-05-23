@@ -10,6 +10,14 @@
 				<div class="tasks"></div>
 		</section>
 	</section>
+	<section id="modal-wrapper" class="hidden">
+		<section id="modal-background"></section>
+		<section id="modal-main">
+			<div class="close">×</div>
+			<h2 class="title"></h2>
+			<div class="body"></div>
+		</section>
+	</section>
 	<script>
 	//Give us a favicon!
 	var favicon = document.querySelector("head link");
@@ -84,6 +92,38 @@
 	foreach(".project h4", function(h){
 		h.style.cursor = "pointer";
 		h.addEventListener("click", function(){showOverlay(h.parentNode)},false);
+	});
+
+	// Modal vars
+	var modal = {
+		wrapper: document.querySelector("#modal-wrapper"),
+		background: document.querySelector("#modal-background"),
+		container: document.querySelector("#modal-main"),
+		title: document.querySelector("#modal-main .title"),
+		body: document.querySelector("#modal-main .body"),
+		close: document.querySelector("#modal-main .close")
+	}
+
+	// Show the modal, with a title and body
+	function showModal(title, body) {
+		modal.title.innerHTML = title;
+		modal.body.innerHTML = body;
+
+		show(modal.wrapper);
+	}
+
+	// Hide the modal
+	function hideModal(){ hide(modal.wrapper); }
+
+	//Background and close button listeners
+	modal.close.addEventListener("click", hideModal, false);
+	modal.background.addEventListener("click", hideModal, false);
+
+	//Hook up alerts to modal
+	foreach(".alert", function(alert){
+		alert.addEventListener("click", function(){
+			showModal(this.getAttribute("data-modal-title"), this.getAttribute("data-modal-body"));
+		}, false);
 	});
 
 	// Search box function

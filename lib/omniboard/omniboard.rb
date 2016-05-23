@@ -106,5 +106,20 @@ module Omniboard
 		def create_document
 			@document = Rubyfocus::Document.new(Rubyfocus::LocalFetcher.new)
 		end
+
+		#---------------------------------------
+		# Methods for reaching head
+		def document_at_head?
+			raise(RuntimeError, "Called Omniboard.document_at_head? before document loaded") if @document.nil?
+			return (@document.fetcher.head == @document.patch_id)
+		end
+
+		def document_can_reach_head?
+			raise(RuntimeError, "Called Omniboard.document_can_reach_head? before document loaded") if @document.nil?
+			return @document.fetcher.can_reach_head_from?(@document.patch_id)
+		end
+
+		def current_id; @document.patch_id; end
+		def head_id; @document.fetcher.head; end
 	end
 end
