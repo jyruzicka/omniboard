@@ -1,3 +1,11 @@
+# 0.3.3 // 2016-05-23
+
+Wow, it's been some time, hasn't it? Let's add updates to this.
+
+* [New] Omniboard works out when your document is out of date, or even when it's become detached from the head of your omnifocus database, and lets you know.
+* [Fix] `Group` now has a default `light_colour` method - no more errors if you don't group your projects!
+
+
 # 0.3.1 // 2016-02-13
 
 * [Fix] Remove console.log() debugging in js functions
