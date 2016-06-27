@@ -54,6 +54,11 @@ class Omniboard::ProjectWrapper
 		tasks_to_list(@project.tasks)
 	end
 
+	# Format this project's note field to create nice html
+	def formatted_note
+		@formatted_note ||= self.note.gsub(/\n+/,"<br />").gsub(/<.*?>/,"").gsub('"','\"').gsub('\\','\\\\')
+	end
+
 	# A list of CSS classes to apply to this project
 	def css_classes
 		classes = ["project", column.display]
