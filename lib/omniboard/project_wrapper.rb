@@ -56,7 +56,23 @@ class Omniboard::ProjectWrapper
 
 	# Format this project's note field to create nice html
 	def formatted_note
-		@formatted_note ||= (self.note || "").gsub(/\n+/,"<br />").gsub(/<.*?>/,"").gsub('"','\"').gsub('\\','\\\\')
+		@formatted_note ||= Omniboard::StyledText.parse(self.note || "").to_html
+	end
+
+	def deferred_date
+		if self.start
+			self.start.strftime("%d %B %Y")
+		else
+			""
+		end
+	end
+
+	def due_date
+		if self.due
+			self.due.strftime("%d %B %Y")
+		else
+			""
+		end
 	end
 
 	# A list of CSS classes to apply to this project

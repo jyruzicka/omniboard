@@ -178,13 +178,33 @@
 			cursor: pointer;
 		}
 
-		#overlay-main h2 {
+		.overlay-header {
+			display: flex;
+			align-items: baseline
+		}
+
+		.overlay-header h2 {
 			border-bottom: none;
+		}
+
+		.overlay-header h3 {
+			padding-left: 3ex;
+		}
+
+		#overlay-main h3 a {
+			color: grey;
 		}
 
 		#overlay-main .body {
 			display: flex;
 			flex-grow: 1;
+			font-size: 1.2rem;
+			padding-top: 1em;
+		}
+
+		#overlay-main .note ul {
+			list-style: none;
+			margin-bottom: 1em;
 		}
 
 		#overlay-main .note {
@@ -193,9 +213,18 @@
 			border-right: 1px dotted grey;
 		}
 
+		#overlay-main .note p {
+			margin-bottom: 0.2em;
+			min-height: 1em;
+		}
+
 		#overlay-main .tasks {
 			flex: 1 1 0px;
 			margin-left: 1em;
+		}
+
+		#overlay-main .tasks li {
+			margin-bottom: 0.5em;
 		}
 
 		#modal-background{

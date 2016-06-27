@@ -21,10 +21,13 @@ lib/omniboard/omniboard.rb
 lib/omniboard/project_wrapper.rb
 lib/omniboard/property.rb
 lib/omniboard/renderer.rb
+lib/omniboard/styled_text.rb
+lib/omniboard/styled_text_element.rb
 lib/omniboard/templates/column.erb
 lib/omniboard/templates/postamble.erb
 lib/omniboard/templates/preamble.erb
 lib/omniboard/templates/project.erb
 omniboard.gemspec
+Rakefile
 README.md
 version.txt

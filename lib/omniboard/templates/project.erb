@@ -1,4 +1,4 @@
-<div class="<%= project.css_classes.join(" ") %>" data-name="<%=project.name.sanitize%>" data-id="<%=project.id%>" data-note="<%=(project.formatted_note).sanitize%>" data-colour="<%=project.colour%>" data-light-colour="<%=project.light_colour%>" data-tasks="<%=project.task_list.sanitize_quotes%>">
+<div class="<%= project.css_classes.join(" ") %>" data-name="<%=project.name.sanitize%>" data-id="<%=project.id%>" data-note="<%=project.formatted_note%>" data-colour="<%=project.colour%>" data-light-colour="<%=project.light_colour%>" data-tasks="<%=project.task_list.sanitize_quotes%>" data-deferred="<%=project.deferred_date%>" data-due="<%=project.due_date%>">
 	<% if project.marked? %>
 		<div class="mark"></div>
 	<% end %>

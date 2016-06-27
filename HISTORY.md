@@ -1,3 +1,11 @@
+# 0.4.0 // 2016-06-27
+
+Updates galore! Well, some updates, anyway. While there are some larger underlying problems with the codebase, I've just been focussing on the notes of each project.
+
+* [New] Project notes will now show basic styling (italics, bold, underline; better paragraphs).
+* [New] Added some shiny CSS for the project details - notes and remaining tasks lists should be a bit sexier
+* [New] Projects now show due and deferral dates (when appropriate) in the project overlay
+
 # 0.3.3 // 2016-05-23
 
 Wow, it's been some time, hasn't it? Let's add updates to this.

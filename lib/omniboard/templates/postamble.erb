@@ -3,8 +3,10 @@
 		<section id="overlay-background"></section>
 		<section id="overlay-main">
 			<div class="close">×</div>
-			<h2 class="name"></h2>
-			<h3><a class="id" href"#"></a></h3>
+			<div class="overlay-header">
+				<h2 class="name"></h2>
+				<h3><a class="id" href"#"></a></h3>
+			</div>
 			<div class="body">
 				<div class="note"></div>
 				<div class="tasks"></div>
@@ -76,7 +78,17 @@
 		overlay.id.innerHTML = elem.getAttribute("data-id");
 		overlay.id.setAttribute("href", "omnifocus:///task/"+elem.getAttribute("data-id"));
 
-		overlay.note.innerHTML = "<h3>Notes:</h3>" + elem.getAttribute("data-note");
+		//Set up note panel inner HTML. Optional UL for deferral and due dates,
+		// followed by notes
+		var noteHTML = "";
+		if (elem.getAttribute("data-deferred") != "" ||
+				elem.getAttribute("data-due") 		 != "") {
+			noteHTML = "<ul>";
+			if (elem.getAttribute("data-deferred") != "") { noteHTML += "<li><b>Project deferred until:</b> " + elem.getAttribute("data-deferred") + "</li>"; }
+			if (elem.getAttribute("data-due") != "") 			{ noteHTML += "<li><b>Project due on:</b> " + elem.getAttribute("data-due") + "</li>"; }
+			noteHTML += "</ul>"
+		}
+		overlay.note.innerHTML = noteHTML + "<h3>Notes:</h3>" + elem.getAttribute("data-note");
 		overlay.tasks.innerHTML = "<h3>Tasks:</h3>" + elem.getAttribute("data-tasks");
 
 		show(overlay.wrapper);
