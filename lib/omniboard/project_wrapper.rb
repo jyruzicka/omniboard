@@ -56,7 +56,7 @@ class Omniboard::ProjectWrapper
 
 	# Format this project's note field to create nice html
 	def formatted_note
-		@formatted_note ||= self.note.gsub(/\n+/,"<br />").gsub(/<.*?>/,"").gsub('"','\"').gsub('\\','\\\\')
+		@formatted_note ||= (self.note || "").gsub(/\n+/,"<br />").gsub(/<.*?>/,"").gsub('"','\"').gsub('\\','\\\\')
 	end
 
 	# A list of CSS classes to apply to this project
