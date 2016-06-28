@@ -50,7 +50,7 @@ class Omniboard::Group
 		# If we don't have any groups on our board, this is our default
 		# light colour for ungrouped projects
 		def light_colour
-			Omniboard::Colour.neW(0).light
+			Omniboard::Colour.new(0).light
 		end
 	end
 
