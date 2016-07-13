@@ -44,7 +44,7 @@ class Omniboard::ProjectWrapper
 		if @project.respond_to?(sym)
 			@project.send(sym, *args, &blck)
 		else
-			raise NoMethodError, "undefined method #{sym} for #{self}"
+			raise NoMethodError, "undefined method #{sym} for #{self.inspect}"
 		end
 	end
 

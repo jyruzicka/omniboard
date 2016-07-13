@@ -21,8 +21,9 @@ class Omniboard::Column
 	# Blocks governing how to group and how groups are displayed
 	block_property :group_by
 	block_property :sort_groups
+	block_property :group_name
 
-	INHERITED_PROPERTIES = %i(sort mark_when dim_when icon group_by sort_groups)
+	INHERITED_PROPERTIES = %i(sort mark_when dim_when icon group_by sort_groups group_name)
 
 	# Order in the kanban board. Lower numbers are further left. Default 0
 	property :order
@@ -56,7 +57,7 @@ class Omniboard::Column
 		Omniboard::Column.add(self)
 	end
 
-	# Fetch the appropriate property value. If the value is :inherit, will fetch the appropriate value from Omnigrab::Column
+	# Fetch the appropriate property value. If the value is :inherit, will fetch the appropriate value from Omniboard::Column
 	def property(sym)
 		raise(ArgumentError, "Unrecognised property #{sym}: allowed values are #{INHERITED_PROPERTIES.join(", ")}.") unless INHERITED_PROPERTIES.include?(sym)
 		v = self.send(sym)
@@ -93,6 +94,7 @@ class Omniboard::Column
 
 		@projects += arr
 	end
+	alias_method :<<, :add
 
 
 	# Return an array of projects, sorted according to the sort block (or not, if no sort block supplied).
@@ -125,7 +127,7 @@ class Omniboard::Column
 
 	# Returns a sorted array of groups. Returned as strings
 	def groups
-		keys = grouped_projects.keys.map(&:name)
+		keys = grouped_projects.keys.map(&:identifier)
 
 		group_sort_block = property(:sort_groups)
 		if group_sort_block.nil?
@@ -154,6 +156,12 @@ class Omniboard::Column
 		else
 			nil
 		end
+	end
+
+	# Return the group name for a given group
+	def group_name_for(group)
+		gname = property(:group_name)
+		gname ? gname[group] : group.to_s
 	end
 
 	# Return the marked status of a given project, based on mark_when blocks
@@ -192,6 +200,9 @@ class Omniboard::Column
 	# Columns
 	@columns = []
 
+	# Any group colour assignments
+	@colour_groups = []
+
 	class << self
 		include Omniboard::Property
 
@@ -224,13 +235,27 @@ class Omniboard::Column
 		# Fallback group method, apply only if individual column group is blank
 		block_property :group_by
 
+		# Fallback group name method, apply only if individual column group name is blank
+		block_property :group_name
+
 		# Fallback group sort method
 		block_property :sort_groups
 
 		# Fallback icon method
 		block_property :icon
 
-		# Condfig method
+		# Assign a colour to a group, given it fits a block
+		def colour_group(hue, &blck)
+			@colour_groups << {hue: hue, block: blck}
+		end
+
+		# Returns the appropriate hue for a given group, if it matches any of the colour groups provided by @colour_groups
+		def colour_for_group(group)
+			colour_group = @colour_groups.find{ |cgp| cgp[:block][group] }
+			return colour_group && colour_group[:hue]
+		end
+
+		# Config method
 		def config &blck
 			self.instance_exec(&blck)
 		end
@@ -252,6 +277,8 @@ class Omniboard::Column
 				@icon = nil
 			when :sort_groups
 				@sort_groups = nil
+			when :group_name
+				@group_name = nil
 			else
 				raise ArgumentError, "Do not know how to clear config: #{config}"
 			end

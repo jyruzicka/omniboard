@@ -1,3 +1,12 @@
+# 1.0.0 // 2016-07-08
+
+Hopefully integrating all the little changes, bugfixes, and modifications that I've wanted to do for a while.
+
+* [New] `Omniboard::document=` is available if you just want to set Omniboard's document variable by yourself without all that hassle of loading from file.
+* [New] If your document has no fetcher, it's always considered to be at head.
+* [New] Substantial changes to how groups work. You may now return any object from a `group_by` method, and use that object to sort your groups before displaying names. See the Readme for more information on how to use the updated groups.
+* [New] You can now custom colour your groups! See the Readme for more information.
+
 # 0.4.0 // 2016-06-27
 
 Updates galore! Well, some updates, anyway. While there are some larger underlying problems with the codebase, I've just been focussing on the notes of each project.

@@ -2,8 +2,19 @@
 class Omniboard::Group
 	include Comparable
 
-	# The name of the group
-	attr_accessor :name
+	# The identifier for this group. Can be a string, object, whatever you like.
+	attr_accessor :identifier
+
+	# Deprecated methods
+	def name
+		$stderr.puts "Group#name is deprecated. Use Group#identifier instead."
+		@identifier
+	end
+
+	def name= n
+		$stderr.puts "Group#name= is deprecated. Use Group#identifier= instead."
+		@identifier = n
+	end
 
 	# The colour representation of a group
 	attr_accessor :colour
@@ -15,22 +26,15 @@ class Omniboard::Group
 		# Global values for group colour brightness and saturation
 		attr_accessor :brightness, :saturation
 
-		# Find a group by name
+		# All groups in the board
+		attr_accessor :groups
+
+		# Find a group by identifier
 		def [] str
 			raise(ArgumentError, "Group[] called with non-string (#{str.klass}) argument: you must search groups by string.") if
 				!str.is_a?(String)
 			
-			@groups.find{ |g| g.name == str } || new(str)
-		end
-
-		# Returns the index of a group in the group array
-		def index(g)
-			@groups.index(g)
-		end
-
-		# How many groups do we have in our array?
-		def size
-			@groups.size
+			@groups.find{ |g| g.identifier == str } || new(str)
 		end
 
 		# Add a new group to the groups array. Also resets all colour assignments for the group.
@@ -54,9 +58,9 @@ class Omniboard::Group
 		end
 	end
 
-	def initialize(name)
-		raise(ArgumentError, "nil name not allowed") if name.nil?
-	  @name = name
+	def initialize(identifier)
+		raise(ArgumentError, "nil identifier not allowed") if identifier.nil?
+	  @identifier = identifier
 	  Omniboard::Group.add(self)
 	end
 
@@ -72,16 +76,32 @@ class Omniboard::Group
 		@colour_obj = nil
 	end
 
+	def assigned_colour
+		Omniboard::Column::colour_for_group(self.identifier)
+	end
+
+	def has_assigned_colour?
+		assigned_colour != nil
+	end
+
 	def to_s
-		@name
+		@identifier
 	end
 
 	def <=> o
-		self.name <=> o.name
+		self.identifier <=> o.identifier
 	end
 
 	private
 	def colour_obj
-		@colour_obj ||= Omniboard::Colour.new(360.0/Omniboard::Group.size*Omniboard::Group.index(self))
+		@colour_obj ||= begin
+			my_hue = if has_assigned_colour?
+				assigned_colour
+			else
+				unassigned_groups = Omniboard::Group.groups.select{ |g| !g.has_assigned_colour? }
+				360.0 / unassigned_groups.size * unassigned_groups.index(self)
+			end
+			Omniboard::Colour.new(my_hue)
+		end
 	end	
 end

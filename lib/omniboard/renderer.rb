@@ -7,9 +7,12 @@ class Omniboard::Renderer
 	  @current_group = nil
 	end
 
-	def add_column(col)
-		@columns << col
+	# Add one or more columns to our array of columns.
+	def add_column(*col)
+		@columns += col
 	end
+
+
 
 	def to_s
 		preamble + @columns.map{ |c| render_column(c) }.join("\n") + postamble

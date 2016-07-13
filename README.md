@@ -54,7 +54,7 @@ The first time you run `omniboard`, you will generate a configuration folder at 
 You can create a new column in your Kanban by creating a new file in the `columns` folder. Name it whatever you like, but make sure that it ends with `.rb`. Inside, you configure a column using the following syntax:
 
 ```ruby
-Omnifocus::Column.new "Column name" do
+Omniboard::Column.new "Column name" do
 end
 ```
 
@@ -67,7 +67,7 @@ You can customise your columns in all manner of ways. These methods either gover
 The following column properties are numeric or symbols. You can alter these inside the column block in the following manner:
 
 ```ruby
-Omnifocus::Column.new "Sample column" do
+Omniboard::Column.new "Sample column" do
 	order 1
 	display :compact
 end
@@ -82,7 +82,7 @@ end
 The following column properties take blocks of ruby code. You can alter these inside the column block in the following manner:
 
 ```ruby
-Omnifocus::Column.new "Active projects only" do
+Omniboard::Column.new "Active projects only" do
 
 	conditions do |p|
 		p.active?
@@ -91,39 +91,83 @@ end
 ```
 
 * **conditions**: This block is run on every project in OmniFocus, with the project being passed in as the first argument. If the block returns true, the project is included in this column. If it returns false, the project is not shown in this column.
-* **group_by**: This block is run on every project that makes it through the conditions filter. Projects are divided into groups in your kanban board based on this method, which is expected to return a string. If no `group_by` block is provided, the column displays all projects ungrouped.
 * **sort**: This block determines the order in which projects appear within groups. `sort` may take one argument, in which case it acts much like ruby's [`sort_by`](http://ruby-doc.org/core-2.3.0/Enumerable.html#method-i-sort_by) method, or two arguments, in which case it acts like ruby's [`sort`](http://ruby-doc.org/core-2.3.0/Enumerable.html#method-i-sort) method. If no sort block is provided, the projects are sorted by name. The arguments passed to `sort` are the projects to be compared when sorting.
-* **sort_groups**: This block determines the order in which the groups appear in the column. It takes arguments in the same way that **sort** does, although the arguments given to the block are the names of the groups.
 * **mark_when**: Marked projects are given a small red "bookmark" in the top-right-hand corner of their ticket. Marked projects are those which, when passed to the `marked_when` block, return true.
 * **dim_when**: Dimmed projects are shown at partial opacity, and can be useful for providing information on less critical projects, or those that are currently deferred. Dimmed projects are those which, when passed to the `dim_when` block, return true.
 * **icon**: This block is run on every project, and if it returns a non-`nil` value, omniboard will place a small icon in the bottom-right-hand corner of the project ticket with an image source set to the return value of the `icon` block. For example, if the `icon` block returns "waiting.png" for a project, omniboard will place a small icon in the bottom-right corner of the project ticket with the source equal to "waiting.png". Alternatively, you may use one of the two pre-defined SVG icons bundled into omniboard by setting the icon to either "svg:hanging" or "svg:waiting-on".
+
+### Grouping projects
+
+You may want to group your projects - for example, by parent folder, by flagged status, or by due date. Each column may group its projects in different ways, or you may assign one default grouping method to be used over the whole board.
+
+Each group is associated with an *identifier* - this could be an object, a true/false value, a string, whatever you want. You can use the `group_by` method to set this identifier:
+
+```ruby
+Omniboard::Column.new "Due soon" do
+	group_by{ |p| p.due.to_date - Date.today }
+end
+```
+
+This will group each project by how many days in the future it's due. The identifier will be an integer.
+
+You can sort groups as well, using the `sort_groups` method:
+
+```ruby
+Omniboard::Column.new "Due soon" do
+	group_by{ |p| p.due.to_date - Date.today }
+	sort_groups{ |i| i }
+end
+```
+
+The `sort_groups` block takes arguments in the same way that `sort` does, although the arguments passed to the block are the identifiers of the relevant groups.
+
+It's nice to have fancy names for your groups, and sometimes they'll be a little more involved than just the string representations of the group identifiers. You can set groups' names using the `group_name` block. Again, it gets passed the identifier for each group, and returns the string name of the group:
+
+```ruby
+Omniboard::Column.new "Due soon" do
+	group_by{ |p| p.due.to_date - Date.today }
+	sort_groups{ |i| i }
+
+	group_name{ |i| "Due in " + (i == 1 ? "1 day" : "#{i} days") }
+end
+```
+
+By default, each group is given an arbitrary colour. Sometimes you might want to override that. You can do this with the `colour_group` method. Note that you set this globally using the `Omniboard::Column.config` method (see next section for more on this):
+
+```ruby
+Omniboard::Column.config do
+	colour_group(50){ |i| i == 0 }
+end
+```
+
+The `colour_group` method takes two arguments: first, a numerical value which represents the *hue* you want the group to be, and a block which is evaluated by passing the group's identifier and receiving `true` or `false`. So in this example, if the identifier is equal to 0, the group's colour is set to 50.
 
 ### Global configuration
 
 You may apply global configuration properties by the following code:
 
 ```ruby
-Kanban::Column.config do
+Omniboard::Column.config do
 	# Config values here...
 end
 ```
 
-The majority of the column properties listed above can be applied inside of `Kanban::Column.config` as well, giving a resulting **global value**. How omniboard uses this value depends on the property in question:
+The majority of the column properties listed above can be applied inside of `Omniboard::Column.config` as well, giving a resulting **global value**. How omniboard uses this value depends on the property in question:
 
-* A global **conditions** block will be run *in addition to* a column-specific `conditions` block on each project. The project must return `true` in **both cases** in order to be displayed in the given column. This way, a global `conditions` block effectively acts as a board-wide filter.
-* A global **sort**, **group_by**, **sort_groups**, **mark_when**, **dim_when**, or **icon** block will be run *if no column-specific block is provided* on a given column. This way, a global block for any of these properties effectively acts as a "global default".
+* A global `conditions` block will be run *in addition to* a column-specific `conditions` block on each project. The project must return `true` in **both cases** in order to be displayed in the given column. This way, a global `conditions` block effectively acts as a board-wide filter.
+* A global `sort`, `group_by`, `sort_groups`, `group_name`, `mark_when`, `dim_when`, or `icon` block will be run *if no column-specific block is provided* on a given column. This way, a global block for any of these properties effectively acts as a "global default".
 
 You can also set the following configuration options:
 
-* **heading_font**: Tells omniboard to use a particular font for headings (`h1`, `h2`, etc.). This may be a CSS-style list of fonts. Defaults to "Helvetica, Arial, sans-serif".
-* **body_font**: Tells omniboard to use a particular font for body text. Defaults to "Helvetica, Arial, sans-serif".
+* `heading_font`: Tells omniboard to use a particular font for headings (`h1`, `h2`, etc.). This may be a CSS-style list of fonts. Defaults to "Helvetica, Arial, sans-serif".
+* `body_font`: Tells omniboard to use a particular font for body text. Defaults to "Helvetica, Arial, sans-serif".
 
 ### Countering global configurations
 
 You may find yourself in a situation where you want to have a default group block for every column except one, which you would prefer to leave ungrouped. In this case, you can specify "no value" (overriding the column default) by setting the property to nil:
 
 ```ruby
-Kanban::Column.new "Don't group me" do
+Omniboard::Column.new "Don't group me" do
 	group_by nil
 end
 ```
@@ -229,7 +273,7 @@ end
 My main column is quite large, taking up twice as much space as regular columns. The projects are displayed as full tickets, with four projects per row:
 
 ```ruby
-Omnifocus::Column.new "In Progress" do
+Omniboard::Column.new "In Progress" do
 	order 1
 	width 2
 	columns 4

@@ -107,11 +107,17 @@ module Omniboard
 			@document = Rubyfocus::Document.new(Rubyfocus::LocalFetcher.new)
 		end
 
+		# Arbitrarily assign a document object. Normally used only in debugging
+		attr_writer :document
+
 		#---------------------------------------
 		# Methods for reaching head
 		def document_at_head?
 			raise(RuntimeError, "Called Omniboard.document_at_head? before document loaded") if @document.nil?
-			return (@document.fetcher.head == @document.patch_id)
+			return (
+				@document.fetcher.nil?  || # Always at head if we have no fetcher
+				@document.fetcher.head == @document.patch_id
+			)
 		end
 
 		def document_can_reach_head?

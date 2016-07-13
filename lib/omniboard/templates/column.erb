@@ -8,7 +8,7 @@
 	<%if column.can_be_grouped? %>
 		<% column.groups.each do |group| %>
 			<div class="project-wrapper">
-				<h3><%=group %></h3>
+				<h3><%=column.group_name_for(group) %></h3>
 				<div class="project-group">
 					<% column.projects(group).each do |p| %>
 						<%= render_project(p) %>
