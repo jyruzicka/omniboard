@@ -30,11 +30,8 @@ class Omniboard::Group
 		attr_accessor :groups
 
 		# Find a group by identifier
-		def [] str
-			raise(ArgumentError, "Group[] called with non-string (#{str.klass}) argument: you must search groups by string.") if
-				!str.is_a?(String)
-			
-			@groups.find{ |g| g.identifier == str } || new(str)
+		def [] identifier
+			@groups.find{ |g| g.identifier == identifier } || new(identifier)
 		end
 
 		# Add a new group to the groups array. Also resets all colour assignments for the group.
