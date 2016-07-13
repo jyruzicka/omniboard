@@ -56,7 +56,6 @@ class Omniboard::Group
 	end
 
 	def initialize(identifier)
-		raise(ArgumentError, "nil identifier not allowed") if identifier.nil?
 	  @identifier = identifier
 	  Omniboard::Group.add(self)
 	end
