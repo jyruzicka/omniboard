@@ -5,15 +5,14 @@
 	<h4><%=project.name%></h4>
 	<div class="tasks"><%=project.num_tasks%> task<%=project.num_tasks == 1 ? "" : "s"%> remaining</div>
 	<% if project.all_tasks_deferred? %>
-		<div class="project-deferral"><%= project.days_until_action %></div>
+		<div class="project-deferral" title="<%=project.days_until_action%> day<%=project.days_until_action == 1 ? "" : "s"%> until an action is available."><%= project.days_until_action %></div>
 	<% elsif project.icon %>
-		<div class="project-icon">
+		<div class="project-icon" alt="<%=project.icon_alt%>" title="<%=project.icon_alt%>">
 			<% if project.icon.start_with?("svg:") %>
 				<svg><use xlink:href="#<%= project.icon.sub(/^svg:/,"") %>" /></svg>
 			<% else %>
 				<img src="<%=project.icon%>" />
 			<% end %>
-			</div>
-
+		</div>
 	<% end %>
 </div>

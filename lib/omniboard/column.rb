@@ -81,15 +81,21 @@ class Omniboard::Column
 		arr = arr.select{ |p| self.class.conditions[p] } if self.class.conditions
 
 		# Wrap in ProjectWrappers
-		arr = arr.map{ |p| Omniboard::ProjectWrapper.new(p, column: self) }
+		arr = arr.map{ |p| p.is_a?(Omniboard::ProjectWrapper) ? p : Omniboard::ProjectWrapper.new(p, column: self) }
 
 		# Tasks performed upon adding project to column. Add to group, mark & dim appropriately
 		arr.each do |pw|
 			pw.group = self.group_for(pw)
-
 			pw.marked = self.should_mark(pw)
 			pw.dimmed = self.should_dim(pw)
-			pw.icon = self.icon_for(pw)
+
+			# Icon methods
+			icon_attrs = self.icon_for(pw)
+			if icon_attrs.is_a?(Array)
+				pw.icon, pw.icon_alt = *icon_attrs
+			else
+				pw.icon = icon_attrs
+			end
 		end
 
 		@projects += arr
@@ -101,7 +107,7 @@ class Omniboard::Column
 	# If group string is provided, only fetched projects for that group
 	def projects(group=nil)
 		p = if group
-			group = Omniboard::Group[group] if group.is_a?(String)
+			group = Omniboard::Group[group] unless group.is_a?(Omniboard::Group)
 			grouped_projects[group]
 		else
 			@projects

@@ -6,6 +6,7 @@ Hopefully integrating all the little changes, bugfixes, and modifications that I
 * [New] If your document has no fetcher, it's always considered to be at head.
 * [New] Substantial changes to how groups work. You may now return any object from a `group_by` method, and use that object to sort your groups before displaying names. See the Readme for more information on how to use the updated groups.
 * [New] You can now custom colour your groups! See the Readme for more information.
+* [New] The column's `icon` methods may now return an array of `[icon, alt]`, for supplying popup information on icons.
 
 # 0.4.0 // 2016-06-27
 

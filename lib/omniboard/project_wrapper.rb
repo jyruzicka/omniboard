@@ -14,6 +14,9 @@ class Omniboard::ProjectWrapper
 	# Should this project display an icon in the kanban? If so, what's the filename of the icon?
 	attr_accessor :icon
 
+	# If this project displayed an icon, we can supply an alternate text
+	attr_accessor :icon_alt
+
 	# Create a new project wrapper, wrapping project
 	def initialize(project, column: nil)
 	  @project = project

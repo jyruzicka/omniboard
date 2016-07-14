@@ -37,6 +37,13 @@ describe Omniboard::Column do
       c.add(1)
       expect(c.projects.first.column).to eq(c)
     end
+
+    it "should avoid wrapping ProjectWrappers in more ProjectWrappers" do
+      c = Omniboard::Column.new("Sample column")
+      pw = Omniboard::ProjectWrapper.new(1)
+      c.add(pw)
+      expect(c.projects.first.project).to eq(1)
+    end
   end
 
   describe "#projects" do

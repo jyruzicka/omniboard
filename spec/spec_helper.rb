@@ -4,6 +4,7 @@ require 'omniboard'
 
 RSpec::Matchers.define :include_tag do |name, props_hash|
   def processed(hash)
+    return {} if hash.nil?
     hsh = hash.dup
     hsh.delete(:data).each{ |k,v| hsh["data-#{k}"] = v } if hsh.has_key? :data
     hsh
@@ -17,15 +18,28 @@ RSpec::Matchers.define :include_tag do |name, props_hash|
   end
 
   failure_message do |string|
-    "#{string} should match tag #{name} with properties #{props_hash}, but doesn't."
+    if props_hash
+      "#{string} should match tag <#{name}> with properties #{props_hash}, but doesn't."
+    else
+      "#{string} should match tag <#{name}>, but doesn't."
+    end
   end
 end
 
 def render(obj)
+  @renderer ||= Omniboard::Renderer.new
   case obj
   when Omniboard::Column
-    Omniboard::Renderer.new.render_column(obj)
+    @renderer.render_column(obj)
+  when Rubyfocus::Project
+    @renderer.render_project(wrap obj)
+  when Omniboard::ProjectWrapper
+    @renderer.render_project(obj)
   else
     raise RuntimeError, "I don't know how to render a #{obj.class} yet!"
   end
+end
+
+def wrap(obj)
+  Omniboard::ProjectWrapper.new(obj)
 end

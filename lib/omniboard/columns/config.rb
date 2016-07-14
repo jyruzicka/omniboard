@@ -7,5 +7,5 @@ Omniboard::Column.config do
 	sort_groups{ |c| c.nil? ? 0 : c.rank }
 
 	# Name based on ancestry
-	group_name{ |c| c.nil? ? "Top level" : c.ancestry.map(&:name).reverse.join("»")}
+	group_name{ |c| c.nil? ? "Top level" : c.ancestry.map(&:name).reverse.join("→")}
 end
