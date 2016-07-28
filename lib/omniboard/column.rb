@@ -34,6 +34,12 @@ class Omniboard::Column
 	# Display - compact or full? Full includes task info.
 	property :display
 
+	# Display a heading with the total number of projects in this column?
+	property :display_total_projects
+
+	# Display total projects in red if this project limit is breached
+	property :project_limit
+
 	# Do we show a button allowing us to filter our dimmed projects?
 	property :filter_button
 
@@ -49,6 +55,8 @@ class Omniboard::Column
 		self.width(1)
 		self.columns(1)
 		self.display(:full)
+		self.display_total_projects(false)
+		self.project_limit(nil)
 		self.filter_button(false)
 
 		INHERITED_PROPERTIES.each{ |s| self.send(s, :inherit) }

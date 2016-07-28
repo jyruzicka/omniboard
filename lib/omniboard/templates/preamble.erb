@@ -95,12 +95,15 @@
 			position: relative;
 		}
 
-		.project .mark {
+		.project.marked:after {
+			content: "";
 			position: absolute;
-			top: 0px;
-			right: 0px;
-			border-top: 10px solid red;
-			border-left: 10px solid transparent;
+			top: 0;
+			right: 0;
+			height: 10px;
+			width: 10px;
+			border-top-right-radius: 5px;
+			background: linear-gradient(-135deg, red 0%, red 50%, rgba(0,0,0,0) 50%);
 		}
 
 		.project.dimmed {
