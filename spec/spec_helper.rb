@@ -35,6 +35,8 @@ def render(obj)
     @renderer.render_project(wrap obj)
   when Omniboard::ProjectWrapper
     @renderer.render_project(obj)
+  when  nil
+    @renderer.to_s
   else
     raise RuntimeError, "I don't know how to render a #{obj.class} yet!"
   end

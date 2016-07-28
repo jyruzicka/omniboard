@@ -161,6 +161,7 @@ You can also set the following configuration options:
 
 * `heading_font`: Tells omniboard to use a particular font for headings (`h1`, `h2`, etc.). This may be a CSS-style list of fonts. Defaults to "Helvetica, Arial, sans-serif".
 * `body_font`: Tells omniboard to use a particular font for body text. Defaults to "Helvetica, Arial, sans-serif".
+* `refresh_link`: If set, will put a refresh symbol in the title, which allows you to call a given URL. If you're running this in Sinatra + Pow, for example, you can call a path that will auto-refresh your database for you. Note that this usually requires a bit of complex setup - mess with this as you wish!
 
 ### Countering global configurations
 

@@ -234,6 +234,9 @@ class Omniboard::Column
 		property :heading_font
 		property :body_font
 
+		# If set, will provide a link in the heading allowing you to refresh the page
+		property :refresh_link
+
 		# Global conditions, apply to all columns
 		block_property :conditions
 
