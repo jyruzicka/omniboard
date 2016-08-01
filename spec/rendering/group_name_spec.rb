@@ -10,12 +10,12 @@ describe "config.rb group_name:" do
 
     c = Omniboard::Column.new("Default"){ group_by{ |p| p.note } }
     c << Rubyfocus::Project.new(d, name: "A sample project", note: "This my note", id: "1")
-    expect(render c).to  include("<h3>This my note</h3>")
+    expect(render c).to contain_xpath_with_contents("//h3", "This my note")
 
     Omniboard::Column.config{ group_name{ |i| "{{" + i + "}}" } }
-    expect(render c).to include("<h3>{{This my note}}</h3>")
+    expect(render c).to contain_xpath_with_contents("//h3", "{{This my note}}")
 
     c.group_name{ |i| "Note: #{i}" }
-    expect(render c).to include("<h3>Note: This my note</h3>")
+    expect(render c).to contain_xpath_with_contents("//h3", "Note: This my note")
   end
 end

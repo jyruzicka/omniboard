@@ -11,6 +11,6 @@ describe "Column#display_total_projects" do
     c = Omniboard::Column.new("Default"){ display_total_projects true }
     c << Rubyfocus::Project.new(d, name: "Highlighted Project", note: "Highlighted", id: "1")
 
-    expect(render c).to include(%|<div class="column-total">1</div>|)
+    expect(render c).to contain_one_xpath("//div[@class='column-total']")
   end
 end

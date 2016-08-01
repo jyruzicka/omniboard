@@ -83,6 +83,7 @@ class Omniboard::ProjectWrapper
 		classes = ["project", column.display]
 		classes << "marked" if marked?
 		classes << "dimmed" if dimmed?
+		classes << "hidden" if dimmed? && column && column.property(:hide_dimmed)
 		classes
 	end
 

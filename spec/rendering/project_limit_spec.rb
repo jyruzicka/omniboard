@@ -6,12 +6,10 @@ describe "Column#project_limit" do
 
     # Set up 
     d = Rubyfocus::Document.new
-    Omniboard::document = d
-
     c = Omniboard::Column.new("Default"){ project_limit 1 }
     c << Rubyfocus::Project.new(d, name: "Highlighted Project", note: "Highlighted", id: "1")
 
-    expect(render c).to_not include(%|limit-breached|)
+    expect(render c).not_to contain_xpath("//div[contains(@class, 'limit-breached')]")
   end
 
   it "should not change anything if less or equal projects than limit" do
@@ -26,8 +24,7 @@ describe "Column#project_limit" do
     end
 
     c << Rubyfocus::Project.new(d, name: "Highlighted Project", note: "Highlighted", id: "1")
-
-    expect(render c).to_not include(%|limit-breached|)
+    expect(render c).not_to contain_xpath("//div[contains(@class, 'limit-breached')]")
   end
 
   it "should be red if greater projects than limit" do
@@ -42,6 +39,6 @@ describe "Column#project_limit" do
 
     c << Rubyfocus::Project.new(d, name: "Highlighted Project", note: "Highlighted", id: "1")
 
-    expect(render c).to include(%|limit-breached|)
+    expect(render c).to contain_xpath("//div[contains(@class, 'limit-breached')]")
   end
 end

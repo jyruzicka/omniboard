@@ -1,4 +1,4 @@
-<div class="<%= project.css_classes.join(" ") %>" data-name="<%=project.name.sanitize%>" data-id="<%=project.id%>" data-note="<%=project.formatted_note%>" data-colour="<%=project.colour%>" data-light-colour="<%=project.light_colour%>" data-tasks="<%=project.task_list.sanitize_quotes%>" data-deferred="<%=project.deferred_date%>" data-due="<%=project.due_date%>">
+<div class="<%= project.css_classes.join(" ") %>" data-name="<%=project.name.sanitize%>" data-id="<%=project.id%>" data-note="<%=project.formatted_note.html_escape%>" data-colour="<%=project.colour%>" data-light-colour="<%=project.light_colour%>" data-tasks="<%=project.task_list.html_escape%>" data-deferred="<%=project.deferred_date%>" data-due="<%=project.due_date%>">
 	<h4><%=project.name%></h4>
 	<div class="tasks"><%=project.num_tasks%> task<%=project.num_tasks == 1 ? "" : "s"%> remaining</div>
 	<% if project.all_tasks_deferred? %>
@@ -6,7 +6,7 @@
 	<% elsif project.icon %>
 		<div class="project-icon" alt="<%=project.icon_alt%>" title="<%=project.icon_alt%>">
 			<% if project.icon.start_with?("svg:") %>
-				<svg><use xlink:href="#<%= project.icon.sub(/^svg:/,"") %>" /></svg>
+				<svg xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#<%= project.icon.sub(/^svg:/,"") %>" /></svg>
 			<% else %>
 				<img src="<%=project.icon%>" />
 			<% end %>

@@ -5,7 +5,7 @@
 			<div class="<%="column-total" + (column.project_limit && column.project_limit < column.projects.size ? " limit-breached" : "")%>"><%= column.projects.size %></div>
 		<% end %>
 		<% if column.filter_button %>
-			<svg class="filter-button"><use xlink:href="#filter-apply" /></svg>
+			<svg class="filter-button" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#filter-<%= column.property(:hide_dimmed) ? "remove" : "apply" %>" /></svg>
 		<% end %>
 	</div>
 	<%if column.can_be_grouped? %>

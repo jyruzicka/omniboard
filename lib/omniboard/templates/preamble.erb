@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="icon" type="image/png" href="" />
 	<title>看板</title>
 	<style>
@@ -282,7 +282,7 @@
 	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 		<defs>
 			<symbol id="waiting-on" viewBox="0 0 10 10" stroke="black" stroke-width="1" fill="none">
-				<circle cx=5 cy=5 r=4.5 />
+				<circle cx="5" cy="5" r="4.5" />
 				<path d="M5 5 l0 -4"/>
 				<path d="M5 5 l2 0"/>
 			</symbol>
@@ -324,7 +324,7 @@ c0,1.189,0.995,2.154,2.223,2.154c1.227,0,2.223-0.965,2.223-2.154C12.223,9.453,10
 		</div>
 		<div>
 			<% if Omniboard::Column.refresh_link %>
-				<a href="<%= Omniboard::Column.refresh_link %>"><svg class="refresh-link"><use xlink:href="#refresh" /></svg></a>
+				<a href="<%= Omniboard::Column.refresh_link %>"><svg class="refresh-link" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#refresh" /></svg></a>
 			<% end %>
 			<input type="search" id="search" placeholder="Hit / to filter" />
 			<h1>看板 Kanban</h1>

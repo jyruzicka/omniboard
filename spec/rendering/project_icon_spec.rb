@@ -4,57 +4,55 @@ require_relative "../spec_helper"
 describe "config.rb icon:" do
   it "should give a project an svg icon if required" do
    
-    Omniboard::Column.config do
-        icon{ |p| p.name == "Icon project" ? "svg:icon" : nil }
-    end
+    Omniboard::Column.icon{ |p| p.name == "Icon project" ? "svg:icon" : nil }
 
     d = Rubyfocus::Document.new
-    Omniboard::document = d
+    p = wrap Rubyfocus::Project.new(d, name: "Standard project", id: "1")
+    
+    expect(render p).to_not contain_xpath("//svg")
+    expect(render p).to_not contain_xpath("//img")
+
     c = Omniboard::Column.new("Default")
 
-    p = wrap Rubyfocus::Project.new(d, name: "Standard project", id: "1")
-    expect(render p).to_not include_tag("svg")
-    expect(render p).to_not include_tag("img")
-
+    # We need to wrap this! ProjectWrapper needs to know it's in a column
     p2 = wrap Rubyfocus::Project.new(d, name: "Icon project", id: "2")
     c << p2
-    expect(render p2).to include_tag("svg")
-    expect(render p2).to include_tag("use", :"xlink:href" => "#icon")
+
+    expect(render p2).to contain_xpath("//svg")
+    expect(render p2).to contain_xpath("//use[@xlink:href='#icon']")
   end
 
   it "should give a project an img icon if required" do
-    Omniboard::Column.config do
-        icon{ |p| p.name == "Icon project" ? "icon.png" : nil }
-    end
+    Omniboard::Column.icon{ |p| p.name == "Icon project" ? "icon.png" : nil }
 
     d = Rubyfocus::Document.new
-    Omniboard::document = d
-    c = Omniboard::Column.new("Default")
+    
 
     p = wrap Rubyfocus::Project.new(d, name: "Standard project", id: "1")
-    expect(render p).to_not include_tag("svg")
-    expect(render p).to_not include_tag("img")
+    expect(render p).to_not contain_xpath("//svg")
+    expect(render p).to_not contain_xpath("//img")
 
+    c = Omniboard::Column.new("Default")
     p2 = wrap Rubyfocus::Project.new(d, name: "Icon project", id: "2")
     c << p2
-    expect(render p2).to include_tag("img", src: "icon.png")
+
+    expect(render p2).to contain_xpath("//img[@src='icon.png']")
   end
 
   it "should supply an alt text if required" do
-    Omniboard::Column.config do
-        icon{ |p| p.name == "Icon project" ? ["icon.png", "This is an icon"] : nil }
-    end
+    Omniboard::Column.icon{ |p| p.name == "Icon project" ? ["icon.png", "This is an icon"] : nil }
 
     d = Rubyfocus::Document.new
-    Omniboard::document = d
-    c = Omniboard::Column.new("Default")
+
 
     p = wrap Rubyfocus::Project.new(d, name: "Standard project", id: "1")
-    expect(render p).to_not include_tag("svg")
-    expect(render p).to_not include_tag("img")
+    expect(render p).to_not contain_xpath("//svg")
+    expect(render p).to_not contain_xpath("//img")
 
+    c = Omniboard::Column.new("Default")
     p2 = wrap Rubyfocus::Project.new(d, name: "Icon project", id: "2")
     c << p2
-    expect(render p2).to include_tag("div", class: "project-icon", alt: "This is an icon", title: "This is an icon")
+
+    expect(render p2).to contain_xpath("//div[@class='project-icon' @alt='This is an icon' @title='This is an icon']")
   end
 end

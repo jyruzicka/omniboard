@@ -15,6 +15,7 @@ describe "config.rb colour:" do
 
     c = Omniboard::Column.new("Default"){ group_by{ |p| p.note } }
     c << Rubyfocus::Project.new(d, name: "Highlighted Project", note: "Highlighted", id: "1")
-    expect(render c).to include_tag("div", data: {name: "Highlighted Project", colour: "hsl(10,100%,80%)"})
+
+    expect(render(c)).to contain_one_xpath("//div[@data-name='Highlighted Project']")
   end
 end

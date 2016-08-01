@@ -23,7 +23,7 @@ class Omniboard::Column
 	block_property :sort_groups
 	block_property :group_name
 
-	INHERITED_PROPERTIES = %i(sort mark_when dim_when icon group_by sort_groups group_name)
+	INHERITED_PROPERTIES = %i(sort mark_when dim_when icon group_by sort_groups group_name hide_dimmed)
 
 	# Order in the kanban board. Lower numbers are further left. Default 0
 	property :order
@@ -42,6 +42,9 @@ class Omniboard::Column
 
 	# Do we show a button allowing us to filter our dimmed projects?
 	property :filter_button
+
+	# Do we automatically hide dimmed projects?
+	property :hide_dimmed
 
 	# How many projects to show per line? Defaults to 1.
 	property :columns
@@ -93,6 +96,8 @@ class Omniboard::Column
 
 		# Tasks performed upon adding project to column. Add to group, mark & dim appropriately
 		arr.each do |pw|
+			pw.column = self
+
 			pw.group = self.group_for(pw)
 			pw.marked = self.should_mark(pw)
 			pw.dimmed = self.should_dim(pw)
@@ -217,6 +222,9 @@ class Omniboard::Column
 	# Any group colour assignments
 	@colour_groups = []
 
+	# Default values for global config
+	@hide_dimmed = false
+
 	class << self
 		include Omniboard::Property
 
@@ -248,6 +256,9 @@ class Omniboard::Column
 
 		# Fallback mark method, apply only if individual dim method is blank
 		block_property :dim_when
+
+		# Fallback property for hiding dimmed project
+		property :hide_dimmed
 
 		# Fallback group method, apply only if individual column group is blank
 		block_property :group_by
@@ -296,6 +307,8 @@ class Omniboard::Column
 				@sort_groups = nil
 			when :group_name
 				@group_name = nil
+			when :hide_dimmed
+				@hide_dimmed = false
 			else
 				raise ArgumentError, "Do not know how to clear config: #{config}"
 			end
