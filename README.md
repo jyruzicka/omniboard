@@ -78,6 +78,7 @@ end
 * **width**: The relative width of this column as compared to other columns on the board. The column's default width is 0.
 * **columns**: The number of sub-columns within this column. If `columns` is greater than 1, projects will be displayed side-by-side. By default, each column's width is 1.
 * **filter_button**: Whether or not to show a small button which, when clicked, will hide all "dimmed" projects. By default, set to false.
+* **hide_dimmed**: When set to true, dimmed projects will be automatically hidden on page load. By default, set to false.
 
 The following column properties take blocks of ruby code. You can alter these inside the column block in the following manner:
 
@@ -155,7 +156,7 @@ end
 The majority of the column properties listed above can be applied inside of `Omniboard::Column.config` as well, giving a resulting **global value**. How omniboard uses this value depends on the property in question:
 
 * A global `conditions` block will be run *in addition to* a column-specific `conditions` block on each project. The project must return `true` in **both cases** in order to be displayed in the given column. This way, a global `conditions` block effectively acts as a board-wide filter.
-* A global `sort`, `group_by`, `sort_groups`, `group_name`, `mark_when`, `dim_when`, or `icon` block will be run *if no column-specific block is provided* on a given column. This way, a global block for any of these properties effectively acts as a "global default".
+* A global `sort`, `group_by`, `sort_groups`, `group_name`, `mark_when`, `dim_when`, `hide_dimmed`, or `icon` block will be run *if no column-specific block is provided* on a given column. This way, a global block for any of these properties effectively acts as a "global default".
 
 You can also set the following configuration options:
 
