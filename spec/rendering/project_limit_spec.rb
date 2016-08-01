@@ -19,7 +19,7 @@ describe "Column#project_limit" do
     Omniboard::document = d
 
     c = Omniboard::Column.new("Default") do
-      display_total_projects true
+      display_project_counts :all
       project_limit 1
     end
 
@@ -33,7 +33,7 @@ describe "Column#project_limit" do
     Omniboard::document = d
 
     c = Omniboard::Column.new("Default") do
-      display_total_projects true
+      display_project_counts :all
       project_limit 0
     end
 

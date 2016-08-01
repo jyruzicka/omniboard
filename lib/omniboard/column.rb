@@ -23,7 +23,9 @@ class Omniboard::Column
 	block_property :sort_groups
 	block_property :group_name
 
-	INHERITED_PROPERTIES = %i(sort mark_when dim_when icon group_by sort_groups group_name hide_dimmed)
+	INHERITED_PROPERTIES = %i(sort mark_when dim_when icon group_by sort_groups group_name hide_dimmed display_project_counts)
+	ALLOWED_PROJECT_COUNTS = %i(all active marked inherit)
+	ALLOWED_PROJECT_DISPLAYS = %i(full compact)
 
 	# Order in the kanban board. Lower numbers are further left. Default 0
 	property :order
@@ -32,10 +34,11 @@ class Omniboard::Column
 	property :width
 
 	# Display - compact or full? Full includes task info.
-	property :display
+	property :display, allowed_values: ALLOWED_PROJECT_DISPLAYS
 
 	# Display a heading with the total number of projects in this column?
-	property :display_total_projects
+	# Allowed values: "all", "active", "marked", nil
+	property :display_project_counts, allowed_values: ALLOWED_PROJECT_COUNTS
 
 	# Display total projects in red if this project limit is breached
 	property :project_limit
@@ -58,7 +61,7 @@ class Omniboard::Column
 		self.width(1)
 		self.columns(1)
 		self.display(:full)
-		self.display_total_projects(false)
+		self.display_project_counts(nil)
 		self.project_limit(nil)
 		self.filter_button(false)
 
@@ -214,6 +217,25 @@ class Omniboard::Column
 	end
 
 	#---------------------------------------
+	# Presentation methods
+	def count_div
+		total = case property(:display_project_counts)
+		when :all
+			self.projects.count
+		when :active
+			self.projects.select{ |p| !p.dimmed? }.count
+		when :marked
+			self.projects.select{ |p| p.marked? }.count
+		else
+			0
+		end
+		css_class = "column-total"
+		css_class << " limit-breached" if project_limit && project_limit < total
+		%|<div class="#{css_class}">#{total}</div>|
+	end
+
+
+	#---------------------------------------
 	# Class-level methods
 
 	# Columns
@@ -244,6 +266,10 @@ class Omniboard::Column
 
 		# If set, will provide a link in the heading allowing you to refresh the page
 		property :refresh_link
+
+		# Fallback default for displaying project counts
+		# Allowed values: "all", "active", "marked", nil
+		property :display_project_counts, allowed_values: ALLOWED_PROJECT_COUNTS
 
 		# Global conditions, apply to all columns
 		block_property :conditions
@@ -309,6 +335,8 @@ class Omniboard::Column
 				@group_name = nil
 			when :hide_dimmed
 				@hide_dimmed = false
+			when :display_project_counts
+				@display_project_counts = nil
 			else
 				raise ArgumentError, "Do not know how to clear config: #{config}"
 			end

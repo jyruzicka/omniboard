@@ -1,9 +1,7 @@
 <div class="column width-<%=column.columns%>" style="flex-grow: <%=column.width%>">
 	<div class="column-header">
 		<h2><%=column%></h2>
-		<% if column.display_total_projects %>
-			<div class="<%="column-total" + (column.project_limit && column.project_limit < column.projects.size ? " limit-breached" : "")%>"><%= column.projects.size %></div>
-		<% end %>
+		<% if column.display_project_counts %><%= column.count_div %><% end %>
 		<% if column.filter_button %>
 			<svg class="filter-button" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#filter-<%= column.property(:hide_dimmed) ? "remove" : "apply" %>" /></svg>
 		<% end %>

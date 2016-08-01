@@ -9,6 +9,7 @@ Hopefully integrating all the little changes, bugfixes, and modifications that I
 * [New] The column's `icon` methods may now return an array of `[icon, alt]`, for supplying popup information on icons.
 * [New] You can add a "refresh" link to the top of the page using the `refresh_link` property inside `config`.
 * [New] Setting `hide_dimmed` on a column will automatically hide dimmed projects on page load
+* [New] Set project counts using the `display_project_counts` property on columns. Can be set to `all`, `active`, or `marked`.
 
 # 0.4.0 // 2016-06-27
 

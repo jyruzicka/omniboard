@@ -79,6 +79,8 @@ end
 * **columns**: The number of sub-columns within this column. If `columns` is greater than 1, projects will be displayed side-by-side. By default, each column's width is 1.
 * **filter_button**: Whether or not to show a small button which, when clicked, will hide all "dimmed" projects. By default, set to false.
 * **hide_dimmed**: When set to true, dimmed projects will be automatically hidden on page load. By default, set to false.
+* **display_project_counts**: Set this to `:all`, `:active`, or `:marked`. Will display the total number of projects in a column: the value you give it will determine if it counts all projects (`:all`), projects which are not dimmed (`:active`), or only marked projected (`:marked`).
+* **project_limit**: If you're display project counts and you have more projects than this number, the project count will show up highlighted red. Useful if you're trying to keep down your total number of active projects!
 
 The following column properties take blocks of ruby code. You can alter these inside the column block in the following manner:
 
