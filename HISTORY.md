@@ -1,3 +1,8 @@
+# 1.0.1 // 2016-08-01
+
+* [Fix] Fixing CDATA tags within javascript - allows me to parse as XHTML while keeping JS all good.
+* [Fix] Improved display of column header numbers.
+
 # 1.0.0 // 2016-07-08
 
 Hopefully integrating all the little changes, bugfixes, and modifications that I've wanted to do for a while.

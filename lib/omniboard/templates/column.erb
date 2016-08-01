@@ -1,10 +1,10 @@
 <div class="column width-<%=column.columns%>" style="flex-grow: <%=column.width%>">
 	<div class="column-header">
 		<h2><%=column%></h2>
-		<% if column.display_project_counts %><%= column.count_div %><% end %>
 		<% if column.filter_button %>
 			<svg class="filter-button" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#filter-<%= column.property(:hide_dimmed) ? "remove" : "apply" %>" /></svg>
 		<% end %>
+		<% if column.property(:display_project_counts) != nil %><%= column.count_div %><% end %>
 	</div>
 	<%if column.can_be_grouped? %>
 		<% column.groups.each do |group| %>
