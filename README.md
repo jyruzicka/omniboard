@@ -180,7 +180,8 @@ end
 
 That's quite a lot to take in, so let's have a look at some of the ways I use this system.
 
-## Leaving out an entire folder
+## Leaving out folders
+### Leaving out an entire single folder
 
 I have a bunch of template projects for use in Chris Sauve's amazing [Templates.scpt](http://cmsauve.com/projects/templates/). There's no point in displaying these on my kanban board, so instead I'll block them using a global `conditions` block.
 
@@ -193,6 +194,18 @@ end
 ```
 
 This block will return true only if the project is **not** contained within a folder that has the name "Template".
+
+### Leaving out an entire folder including all subfolders
+
+Sometimes you want to leave out an entire folder including all subfolders. For example, when your folder "Template" also has subfolders such as "Work Projects", "Private Things" or if you add additional subfolders or rename existing subfolders from time to time. The easiest way to block all subfolders as well:
+
+```ruby
+Omniboard::Column.config do
+	conditions do |p|
+		!p.ancestry.any?{ |c| c.name == "Template" }
+	end
+end
+```
 
 ## Mark based on a note's contents
 
