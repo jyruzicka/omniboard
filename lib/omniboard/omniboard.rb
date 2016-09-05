@@ -48,6 +48,10 @@ module Omniboard
 
 			# 2. Drop base columns + config into columns folder
 			Dir[File.join(__dir__, "columns/*.rb")].each{ |f| FileUtils::cp f, columns_location }
+
+			# 3. Add blank "custom.css" file
+			custom_css = File.join(config_location, "custom.css")
+			File.open(custom_css,"w"){ |io| io.puts "/* Custom CSS goes here */" }
 		end
 
 		#---------------------------------------
@@ -127,5 +131,19 @@ module Omniboard
 
 		def current_id; @document.patch_id; end
 		def head_id; @document.fetcher.head; end
+
+		#---------------------------------------
+		# Config-related methods
+
+		# Fetches any custom CSS stored in `custom.css` inside the config folder
+		def custom_css
+			custom_css_path = File.join(config_location, "custom.css")
+			if File.exists?(custom_css_path)
+				File.read(custom_css_path)
+			else
+				nil
+			end
+		end
+	
 	end
 end

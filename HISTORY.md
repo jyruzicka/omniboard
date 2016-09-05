@@ -1,3 +1,9 @@
+# 1.1.0 // 2016-08-29
+
+Add custom CSS to your omniboard.
+
+* [New] You can now add custom CSS to your board. Any CSS in the file `custom.css` (inside your config file) will be included in the output HTML file. See the readme for more information.
+
 # 1.0.1 // 2016-08-01
 
 * [Fix] Fixing CDATA tags within javascript - allows me to parse as XHTML while keeping JS all good.

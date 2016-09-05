@@ -16,7 +16,7 @@ Omniboard comes as a gem, although it's not currently hosted on rubygems or the 
 git clone https://github.com/jyruzicka/omniboard.git
 cd omniboard
 gem build omniboard.gemspec
-gem install omniboard-0.3.1.gem
+gem install omniboard-1.1.0.gem
 ```
 
 Alternatively, add it to your `Gemfile`:
@@ -175,6 +175,10 @@ Omniboard::Column.new "Don't group me" do
 	group_by nil
 end
 ```
+
+## Custom CSS
+
+You can also change the look and feel of your kanban board by customising the CSS. All changes go into the file `custom.css`, stored in your Omniboard folder (by default, in `~/.omniboard`).
 
 # Case studies
 
