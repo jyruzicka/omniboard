@@ -1,3 +1,11 @@
+# 1.1.1 // 2016-09-09
+
+Fixed an issue with core column classes. Plus some handy debugging stuff!
+
+* [New] `Omniboard::Column.reset_columns` allows you to wipe the global register of columns. Useful for unit testing.
+* [New] `Omniboard::Column.reset_config` now takes the option `:all` to wipe all configuration fields.
+* [Fix] The `config.rb` template file will now let you have projects that are not contained within folders.
+
 # 1.1.0 // 2016-08-29
 
 Add custom CSS to your omniboard.

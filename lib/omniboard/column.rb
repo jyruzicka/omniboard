@@ -252,9 +252,16 @@ class Omniboard::Column
 
 		attr_reader :columns
 
+		# Add a column to the global columns register
 		def add(c)
 			@columns << c
 			@columns = @columns.sort_by(&:order)
+		end
+
+		# Wipe the global register of columns. Useful when resetting Omniboard to
+		# a default state
+		def reset_columns
+			@columns = []
 		end
 
 		# Configuration
@@ -314,7 +321,7 @@ class Omniboard::Column
 			self.instance_exec(&blck)
 		end
 
-		# Clear configuration option
+		# Clear configuration option. You can always pass :all to clear all configuration options
 		def clear_config config
 			case config
 			when :conditions
@@ -336,6 +343,17 @@ class Omniboard::Column
 			when :hide_dimmed
 				@hide_dimmed = false
 			when :display_project_counts
+				@display_project_counts = nil
+			when :all
+				@conditions = nil
+				@sort = nil
+				@group_by = nil
+				@mark_when = nil
+				@dim_when = nil
+				@icon = nil
+				@sort_groups = nil
+				@group_name = nil
+				@hide_dimmed = false
 				@display_project_counts = nil
 			else
 				raise ArgumentError, "Do not know how to clear config: #{config}"
