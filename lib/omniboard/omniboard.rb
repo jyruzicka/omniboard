@@ -65,7 +65,7 @@ module Omniboard
 		# Fetch all columns!
 		def columns
 			@columns ||= begin
-				Dir[File.join(columns_location, "*")].each{ |f| require(f) } if File.exists?(columns_location)
+				Dir[File.join(columns_location, "*.rb")].each{ |f| require(f) } if File.exists?(columns_location)
 				Omniboard::Column.columns
 			end
 		end
