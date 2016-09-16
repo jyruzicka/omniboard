@@ -36,5 +36,5 @@ Omniboard::Column.config do
   end
 
 	# Name based on ancestry
-	group_name{ |c| c.nil? ? "Top level" : c.ancestry.map(&:name).reverse.join("→")}
+	group_name{ |c| (c == "") ? "Top level" : ([c] + c.ancestry.map(&:name)).reverse.join("→") }
 end
