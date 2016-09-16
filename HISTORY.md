@@ -1,6 +1,7 @@
 # Unreleased
 
-* [Fix] Will no longer try to load non-html files in the columns directory
+* [Fix] Default config docs now work properly without giving you errors.
+* [Fix] Will no longer try to load non-html files in the columns directory.
 
 # 1.1.1 // 2016-09-09
 
