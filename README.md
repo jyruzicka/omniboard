@@ -139,11 +139,13 @@ By default, each group is given an arbitrary colour. Sometimes you might want to
 
 ```ruby
 Omniboard::Column.config do
-	colour_group(50){ |i| i == 0 }
+  group_by{ |p| p.container || "" }
+
+	colour_group(50){ |identifier| identifier.respond_to?(:name) && identifier.name == "Home Projects" }
 end
 ```
 
-The `colour_group` method takes two arguments: first, a numerical value which represents the *hue* you want the group to be, and a block which is evaluated by passing the group's identifier and receiving `true` or `false`. So in this example, if the identifier is equal to 0, the group's colour is set to 50.
+The `colour_group` method takes two arguments: first, a numerical value which represents the *hue* you want the group to be, and a block which takes the group identifier and returns `true` or `false`. In the above example, we're using the containing folder as the group identifier. If the containing folder's name is "Home Projects", we set the group's colour to `50`.
 
 ### Global configuration
 
