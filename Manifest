@@ -7,7 +7,7 @@
 # EXCLUDE Manifest
 
 bin/omniboard
-HISTORY.md
+CHANGELOG.md
 lib/omniboard.rb
 lib/omniboard/colour.rb
 lib/omniboard/column.rb
