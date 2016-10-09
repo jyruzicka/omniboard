@@ -4,15 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-# Unreleased
+# [1.1.2] - 2016-10-10
  
 ### Changed
 * HISTORY is now CHANGELOG. Formatting based on Keep a Changelog.
 * Edited README so examples on colouring groups are better.
+* Non-group rendering in `column.erb` is slightly prettier.
 
 ### Fixed
 * Default config docs now work properly without giving you errors.
 * Will no longer try to load non-html files in the columns directory.
+* Updated dependency version for RubyFocus.
 
 ## [1.1.1] - 2016-09-09
 

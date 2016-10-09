@@ -13,7 +13,6 @@ class Omniboard::Renderer
 	end
 
 
-
 	def to_s
 		preamble + @columns.map{ |c| render_column(c) }.join("\n") + postamble
 	end

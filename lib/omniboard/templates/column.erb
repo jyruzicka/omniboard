@@ -18,8 +18,10 @@
 			</div>
 		<% end %>
 	<% else %>
-		<% column.projects.each do |p| %>
-			<%= render_project(p) %>
-		<% end %>
+		<div class="project-group">
+			<% column.projects.each do |p| %>
+				<%= render_project(p) %>
+			<% end %>
+		</div>
 	<% end %>
 </div>
