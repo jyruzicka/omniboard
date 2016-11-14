@@ -28,7 +28,7 @@ describe "Column.hide_dimmed" do
     c1 << p
 
     doc = render_xml(c1)
-    project_node = doc.elements.to_a("//div[contains(@class, 'project') @data-name='Dim me']").first
+    project_node = doc.elements.to_a("//div[@data-name='Dim me' contains(@class, 'project')]").first
     expect(project_node).not_to be_nil
     expect(project_node.attribute("class").to_s).to include("hidden")
     
@@ -39,7 +39,7 @@ describe "Column.hide_dimmed" do
     Omniboard::Column.hide_dimmed true
 
     doc = render_xml(c)
-    project_node = doc.elements.to_a("//div[contains(@class, 'project') @data-name='Dim me']").first
+    project_node = doc.elements.to_a("//div[@data-name='Dim me' contains(@class, 'project')]").first
     expect(project_node).not_to be_nil
     expect(project_node.attribute("class").to_s).to include("hidden") 
 

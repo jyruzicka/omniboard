@@ -16,7 +16,7 @@ Omniboard comes as a gem, although it's not currently hosted on rubygems or the 
 git clone https://github.com/jyruzicka/omniboard.git
 cd omniboard
 gem build omniboard.gemspec
-gem install omniboard-1.1.2.gem
+gem install omniboard-1.2.0.gem
 ```
 
 Alternatively, add it to your `Gemfile`:
@@ -81,6 +81,7 @@ end
 * **hide_dimmed**: When set to true, dimmed projects will be automatically hidden on page load. By default, set to false.
 * **display_project_counts**: Set this to `:all`, `:active`, or `:marked`. Will display the total number of projects in a column: the value you give it will determine if it counts all projects (`:all`), projects which are not dimmed (`:active`), or only marked projected (`:marked`).
 * **project_limit**: If you're display project counts and you have more projects than this number, the project count will show up highlighted red. Useful if you're trying to keep down your total number of active projects!
+* **colour**: If specified, all projects in this column will be coloured appropriately. Use it to keep your completed column greyed out, or your high-priority column bright red.
 
 The following column properties take blocks of ruby code. You can alter these inside the column block in the following manner:
 

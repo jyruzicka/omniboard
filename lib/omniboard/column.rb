@@ -52,6 +52,9 @@ class Omniboard::Column
 	# How many projects to show per line? Defaults to 1.
 	property :columns
 
+	# Column-wide colour setting. Overrides group colours
+	property :colour
+
 	# Intializer. Provide name and block for instance evaluation (optional)
 	def initialize(name, &blck)
 		# Set defaults

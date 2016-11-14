@@ -42,4 +42,25 @@ describe Omniboard::ProjectWrapper do
       expect(pw.task_list).to eq(%|<ul><li class="incomplete">Foo task</li><li class="incomplete">Bar task<ul><li class="complete">Bar subtask 1</li><li class="complete">Bar subtask 2</li></ul></li></ul>|)
     end
   end
+
+  describe "#colour" do
+    let(:coloured_column){ double("column", colour: "column colour") }
+    let(:uncoloured_column){ double("column", colour: nil) }
+
+    let(:coloured_group){ double("group", colour: "group colour") }
+
+    it "should return the column colour when @column has a colour" do
+      expect(Omniboard::ProjectWrapper.new(nil, column:coloured_column).colour).to eq("column colour")
+    end
+
+    it "should return the group colour when @column is colourless, @group exists" do
+      pw = Omniboard::ProjectWrapper.new(nil, column: uncoloured_column) 
+      pw.group = coloured_group
+      expect(pw.colour).to eq("group colour")
+    end
+
+    it "should return basic colour when @column is colourless and @group doesn't exist" do
+      expect(Omniboard::ProjectWrapper.new(nil, column:uncoloured_column).colour).to eq(Omniboard::Group.colour)
+    end
+  end
 end

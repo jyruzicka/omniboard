@@ -27,7 +27,13 @@ class Omniboard::ProjectWrapper
 	#---------------------------------------
 	# Colour methods
 	def colour
-		(@group || Omniboard::Group).colour
+		if @column && @column.colour
+			@column.colour
+		elsif @group
+			@group.colour
+		else
+			Omniboard::Group.colour
+		end
 	end
 
 	def light_colour
@@ -108,7 +114,7 @@ class Omniboard::ProjectWrapper
 	end
 
 	def to_s
-		self.project.to_s
+		self.project.to_s || ""
 	end
 
 	private
