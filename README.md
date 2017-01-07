@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jyruzicka/omniboard.svg?branch=master)](https://travis-ci.org/jyruzicka/omniboard)
+![Build Status](https://travis-ci.org/jyruzicka/omniboard.svg?branch=master)](https://travis-ci.org/jyruzicka/omniboard)
 
 Omniboard is a static kanban webpage generator for OmniFocus. Use it to view your currently active projects as a kanban board, with custom sorting and grouping options.
 
@@ -16,7 +16,7 @@ Omniboard comes as a gem, although it's not currently hosted on rubygems or the 
 git clone https://github.com/jyruzicka/omniboard.git
 cd omniboard
 gem build omniboard.gemspec
-gem install omniboard-1.2.0.gem
+gem install omniboard-1.2.1.gem
 ```
 
 Alternatively, add it to your `Gemfile`:
