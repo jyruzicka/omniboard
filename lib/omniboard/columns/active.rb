@@ -1,6 +1,6 @@
 Omniboard::Column.new "Active" do
 	order 1
-	conditions{ |p| p.active? }
+	conditions{ |p| p.active? && !p.deferred? }
 
 	width 2
 	columns 4

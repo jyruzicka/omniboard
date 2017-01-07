@@ -1,4 +1,4 @@
-<div class="<%= project.css_classes.join(" ") %>" data-name="<%=project.name.sanitize%>" data-id="<%=project.id%>" data-note="<%=project.formatted_note.html_escape%>" data-colour="<%=project.colour%>" data-light-colour="<%=project.light_colour%>" data-tasks="<%=project.task_list.html_escape%>" data-deferred="<%=project.deferred_date%>" data-due="<%=project.due_date%>">
+<div class="<%= project.css_classes.join(" ") %>" data-name="<%=(project.name||"").sanitize%>" data-id="<%=project.id%>" data-note="<%=project.formatted_note.html_escape%>" data-colour="<%=project.colour%>" data-light-colour="<%=project.light_colour%>" data-tasks="<%=project.task_list.html_escape%>" data-deferred="<%=project.deferred_date%>" data-due="<%=project.due_date%>">
 	<h4><%=project.name%></h4>
 	<div class="tasks"><%=project.num_tasks%> task<%=project.num_tasks == 1 ? "" : "s"%> remaining</div>
 	<% if project.all_tasks_deferred? %>
