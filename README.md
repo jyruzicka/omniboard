@@ -1,4 +1,4 @@
-![Build Status](https://travis-ci.org/jyruzicka/omniboard.svg?branch=master)](https://travis-ci.org/jyruzicka/omniboard)
+[![Build Status](https://travis-ci.org/jyruzicka/omniboard.svg?branch=master)](https://travis-ci.org/jyruzicka/omniboard)
 
 Omniboard is a static kanban webpage generator for OmniFocus. Use it to view your currently active projects as a kanban board, with custom sorting and grouping options.
 
