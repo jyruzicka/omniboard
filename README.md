@@ -33,7 +33,7 @@ Once installed, use the built-in binary:
 omniboard
 ```
 
-or try the following to see the kanban in your webbrowser:
+or try the following to see the kanban in your web browser:
 
 ```
 omniboard -o kanban.html
