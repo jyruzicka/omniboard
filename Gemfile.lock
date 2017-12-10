@@ -36,5 +36,8 @@ DEPENDENCIES
   rspec (~> 3.4)
   rubyfocus (~> 0.5, >= 0.5.13)
 
+RUBY VERSION
+   ruby 2.3.0p0
+
 BUNDLED WITH
    1.15.1

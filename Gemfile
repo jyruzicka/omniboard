@@ -1,4 +1,5 @@
 source "https://www.rubygems.org"
+ruby ">= 2.1.0"
 
 gem "rubyfocus", "~> 0.5", ">= 0.5.13"
 
