@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
   s.executables << "omniboard"
   s.extra_rdoc_files = ["README.md"]
 
-  s.add_runtime_dependency "rubyfocus", "~> 0.5.5"
+  s.add_runtime_dependency "rubyfocus", "~> 0.5", ">= 0.5.13"
   s.add_runtime_dependency "trollop", "~> 2.1"
 end
