@@ -2,12 +2,12 @@ GEM
   remote: https://www.rubygems.org/
   specs:
     diff-lcs (1.2.5)
-    httparty (0.14.0)
+    httparty (0.15.6)
       multi_xml (>= 0.5.2)
-    mini_portile2 (2.1.0)
-    multi_xml (0.5.5)
-    nokogiri (1.6.8.1)
-      mini_portile2 (~> 2.1.0)
+    mini_portile2 (2.3.0)
+    multi_xml (0.6.0)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
     rake (10.5.0)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
@@ -22,11 +22,11 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    rubyfocus (0.5.11)
+    rubyfocus (0.5.13)
       httparty (~> 0.13, >= 0.13.7)
       nokogiri (~> 1.6, >= 1.6.6)
-      rubyzip (~> 1.1, >= 1.1.7)
-    rubyzip (1.2.0)
+      rubyzip (~> 1.2, >= 1.2.1)
+    rubyzip (1.2.1)
 
 PLATFORMS
   ruby
@@ -34,7 +34,7 @@ PLATFORMS
 DEPENDENCIES
   rake (~> 10.4, >= 10.4.2)
   rspec (~> 3.4)
-  rubyfocus (~> 0.5, >= 0.5.11)
+  rubyfocus (~> 0.5, >= 0.5.13)
 
 BUNDLED WITH
-   1.12.5
+   1.15.1
