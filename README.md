@@ -16,7 +16,7 @@ Omniboard comes as a gem, although it's not currently hosted on rubygems or the 
 git clone https://github.com/jyruzicka/omniboard.git
 cd omniboard
 gem build omniboard.gemspec
-gem install omniboard-1.2.2.gem
+gem install omniboard-1.2.3.gem
 ```
 
 Alternatively, add it to your `Gemfile`:
@@ -154,6 +154,30 @@ end
 ```
 
 The `colour_group` method takes two arguments: first, a numerical value which represents the *hue* you want the group to be, and a block which takes the group identifier and returns `true` or `false`. In the above example, we're using the containing folder as the group identifier. If the containing folder's name is "Home Projects", we set the group's colour to `50`.
+
+#### A note on groups and identifiers
+
+You may find that upon creating a new column, with a new grouping block, you get an error that looks something like this:
+
+```ruby
+.omniboard/columns/config.rb:16:in block (2 levels) in <top (required)>': undefined method 'ancestry' for (1/1):Rational (NoMethodError)
+from /usr/local/lib/ruby/gems/2.4.0/gems/omniboard-1.2.1/lib/omniboard/column.rb:163:in 'sort'
+from /usr/local/lib/ruby/gems/2.4.0/gems/omniboard-1.2.1/lib/omniboard/column.rb:163:in 'groups'
+...
+```
+
+This is probably due to differing group identifiers. For example, the "Due Soon" column above uses integers as group identifiers (`1`, `2`, etc.), while your default columns use `Rubyfocus::Folder`s:
+
+```ruby
+Omniboard::Column.config do
+	group_by{ |p| p.container || "" }
+	...
+end
+```
+
+Since the default group is a `Rubyfocus::Folder`, the default sorting and group naming methods assume they're being passed one (or more) `Rubyfocus::Folder`. If they get passed an integer (or a string, or a boolean, or anything else), they'll throw an error.
+
+The moral of the story: if you're making a new column, with a new `group_by` method, you probably need to provide a `sort_groups` and `group_name` method as well.
 
 ### Global configuration
 
