@@ -22,7 +22,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    rubyfocus (0.5.13)
+    rubyfocus (0.5.14)
       httparty (~> 0.13, >= 0.13.7)
       nokogiri (~> 1.6, >= 1.6.6)
       rubyzip (~> 1.2, >= 1.2.1)
@@ -34,7 +34,7 @@ PLATFORMS
 DEPENDENCIES
   rake (~> 10.4, >= 10.4.2)
   rspec (~> 3.4)
-  rubyfocus (~> 0.5, >= 0.5.13)
+  rubyfocus (~> 0.5, >= 0.5.14)
 
 RUBY VERSION
    ruby 2.3.0p0
