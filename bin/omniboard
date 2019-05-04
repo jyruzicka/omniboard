@@ -3,7 +3,7 @@
 require "omniboard"
 
 # Command line options
-require "trollop"
+require "optimist"
 
 opts = Trollop::options do
 	opt :configure, "Location of configuration files. (Default: #{File.join(ENV["HOME"], ".omniboard")})", type: String

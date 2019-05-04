@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+# [1.2.4] - 2019-04-04
+
+### Changed
+
+* Updated gem dependencies from "trollop" to "optimist"
+
 # [1.2.3] - 2017-12-18
 
 ### Changed
