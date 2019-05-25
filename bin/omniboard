@@ -5,7 +5,7 @@ require "omniboard"
 # Command line options
 require "optimist"
 
-opts = Trollop::options do
+opts = Optimist::options do
 	opt :configure, "Location of configuration files. (Default: #{File.join(ENV["HOME"], ".omniboard")})", type: String
 	opt :output, "Where should the html go? If not specified, outputs to STDOUT.", type: String
 	opt :reset, "Wipe cache and start again from the source."
