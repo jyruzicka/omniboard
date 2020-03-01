@@ -12,7 +12,7 @@ GEM
     multi_xml (0.6.0)
     nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
-    rake (10.5.0)
+    rake (12.3.3)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -36,7 +36,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rake (~> 10.4, >= 10.4.2)
+  rake (~> 12.3)
   rspec (~> 3.4)
   rubyfocus (~> 0.5, >= 0.5.16)
 
